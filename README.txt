@@ -1,0 +1,1 @@
+This desktop app will be used to convert easely timetables to gtfs
