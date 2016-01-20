@@ -1,4 +1,14 @@
+import csv
+
+def read_cvs(path,func):
+    with open(path, 'r') as csvfile:
+            spamreader = csv.reader(csvfile, delimiter=',', quotechar='"')
+            for i, row in enumerate(spamreader):
+                if(i>0):
+                    func(row)
 class Agency:
+
+
     def __init__(self, foldername ="gtfs"):
         self.id = "undefined id"
         self.name = "undefined name"
@@ -21,12 +31,24 @@ class Agency:
 
     def init_from_file(self,path):
         path += "/agency.txt"
-        agency_file = open(path,"r")
+        read_cvs(path,self.init_from_line)
+        a=5
+
+
 
     def init_stops_from_file(self,path):
         path += "/stops.txt"
-        stops_file = open(path,"r")
+        #stops_file = open(path,"r")
 
     def init_routes_from_file(self,path):
         path += "/routes.txt"
-        routes_file = open(path,"r")
+        #routes_file = open(path,"r")
+
+    def init_from_line(self,line):
+        self.id = line[0]
+        self.name = line[1]
+        self.url = line[2]
+        self.timezone = line[3]
+        self.phone = line[4]
+        self.language = line[5]
+
