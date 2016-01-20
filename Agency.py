@@ -8,6 +8,7 @@ class Agency:
         self.language = "undefined language"
         self.stops = list()
         self.routes = list()
+        self.calendar  = "undefined calendar"
 
         #here we do the initialization from the files
         self.init_from_file(foldername)
