@@ -1,11 +1,6 @@
-import csv
-
-def read_cvs(path,func):
-    with open(path, 'r') as csvfile:
-            spamreader = csv.reader(csvfile, delimiter=',', quotechar='"')
-            for i, row in enumerate(spamreader):
-                if(i>0):
-                    func(row)
+import Other
+import Stop
+import Route
 class Agency:
 
 
@@ -31,18 +26,27 @@ class Agency:
 
     def init_from_file(self,path):
         path += "/agency.txt"
-        read_cvs(path,self.init_from_line)
+        Other.read_cvs(path,self.init_from_line)
         a=5
 
 
 
     def init_stops_from_file(self,path):
         path += "/stops.txt"
-        #stops_file = open(path,"r")
+        Other.read_cvs(path,self.add_stop)
+
+    def add_stop(self,line):
+        stop = Stop.Stop(line)
+        self.stops.append(stop)
 
     def init_routes_from_file(self,path):
         path += "/routes.txt"
-        #routes_file = open(path,"r")
+        #continue here
+
+    def add_route(self,line):
+        route = Route.Route(line)
+        self.routes.append(route)
+
 
     def init_from_line(self,line):
         self.id = line[0]
