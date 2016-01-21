@@ -1,0 +1,2 @@
+feed_publisher_name,feed_publisher_url,feed_lang,feed_start_date,feed_end_date,feed_version
+"Keolis Rennes","http://data.keolis-rennes.com/fr/les-donnees/donnees-telechargeables.html","FR","20160104","20160207","Horaires d'hiver 2015/2016 - Version 5.0 - Janvier / Février"

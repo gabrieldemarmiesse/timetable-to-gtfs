@@ -38,6 +38,7 @@ class Agency:
     def add_stop(self,line):
         stop = Stop.Stop(line)
         self.stops.append(stop)
+        print("added stop " + line[0])
 
     def init_routes_from_file(self,path):
         path += "/routes.txt"
@@ -46,6 +47,7 @@ class Agency:
     def add_route(self,line):
         route = Route.Route(line)
         self.routes.append(route)
+        print("creation route " + line[0])
 
 
     def init_from_line(self,line):
