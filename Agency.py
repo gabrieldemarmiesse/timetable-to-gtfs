@@ -41,7 +41,7 @@ class Agency:
 
     def init_routes_from_file(self,path):
         path += "/routes.txt"
-        #continue here
+        Other.read_cvs(path,self.add_route)
 
     def add_route(self,line):
         route = Route.Route(line)
