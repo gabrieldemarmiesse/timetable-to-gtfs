@@ -2,8 +2,10 @@ import Other
 import Stop
 import Route
 import csv
-class Agency:
 
+#Agency is the class that contains all the data
+#This includes bus stops, stop times... etc
+class Agency:
 
     def __init__(self, foldername ="gtfs"):
         self.id = "undefined id"
