@@ -9,7 +9,7 @@ class Route:
         self.type = "undefined route type"
         self.trips = list()
         self.init_from_line(line)
-        self.init_trips_from_file(path)
+        #self.init_trips_from_file(path)
 
     def init_from_line(self,line):
         self.id = line[0]
@@ -24,6 +24,5 @@ class Route:
 
     def add_trip(self,line):
         print("trip" + line[2])
-        if(line[0] == self.id):
-            trip = Trip.Trip(line)
-            self.trips.append(trip)
+        trip = Trip.Trip(line)
+        self.trips.append(trip)

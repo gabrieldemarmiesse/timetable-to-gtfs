@@ -9,7 +9,7 @@ class Trip:
         self.block_id = "undefined block id"
         self.stop_times = list()
         self.init_from_line(line)
-        self.init_stop_times()
+        #self.init_stop_times()
 
 
     #is used to create actually the trip
