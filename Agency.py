@@ -3,11 +3,12 @@ import Stop
 import Route
 import csv
 
-#Agency is the class that contains all the data
-#This includes bus stops, stop times... etc
-class Agency:
 
-    def __init__(self, foldername ="gtfs"):
+class Agency:
+    """ Agency is the class that contains all the data
+    This includes bus stops, stop times... etc"""
+
+    def __init__(self, folder_name="gtfs"):
         self.id = "undefined id"
         self.name = "undefined name"
         self.url = "undefined url"
@@ -18,72 +19,68 @@ class Agency:
         self.routes = list()
         self.calendar  = "undefined calendar"
 
-        #here we do the initialization from the files
-        self.init_from_file(foldername)
-        self.init_stops_from_file(foldername)
-        self.init_routes_from_file(foldername)
-        self.init_trips_from_file(foldername)
-        self.init_times_stops_from_file(foldername)
+        # Here we do the initialization from the files
+        self.init_from_file(folder_name)
+        self.init_stops_from_file(folder_name)
+        self.init_routes_from_file(folder_name)
+        self.init_trips_from_file(folder_name)
+        self.init_times_stops_from_file(folder_name)
 
-
-    #initialize here the agency and ask user for infos if
-    #there is something missing
-
-    def init_from_file(self,path):
+    # Initialize here the agency and ask user for information if
+    # There is something missing
+    def init_from_file(self, path):
         path += "/agency.txt"
-        Other.read_cvs(path,self.init_from_line)
-        a=5
+        Other.read_cvs(path, self.init_from_line)
 
-    def init_stops_from_file(self,path):
+    def init_stops_from_file(self, path):
         path += "/stops.txt"
-        Other.read_cvs(path,self.add_stop)
+        Other.read_cvs(path, self.add_stop)
 
-    def add_stop(self,line):
+    def add_stop(self, line):
         stop = Stop.Stop(line)
         self.stops.append(stop)
         print("added stop " + line[0])
 
-    def init_routes_from_file(self,path):
+    def init_routes_from_file(self, path):
         path += "/routes.txt"
-        Other.read_cvs(path,self.add_route)
+        Other.read_cvs(path, self.add_route)
 
-    def add_route(self,line):
+    def add_route(self, line):
         route = Route.Route(line)
         self.routes.append(route)
         print("creation route " + line[0])
 
-    def init_trips_from_file(self,foldername):
-        path =foldername + "/trips.txt"
-        with open(path, 'r') as csvfile:
-            spamreader = csv.reader(csvfile, delimiter=',', quotechar='"')
+    def init_trips_from_file(self, folder_name):
+        path = folder_name + "/trips.txt"
+        with open(path, 'r') as csv_file:
+            spam_reader = csv.reader(csv_file, delimiter=',', quotechar='"')
             route_index = 0
-            for i, row in enumerate(spamreader):
-                if(i==0):
+            for i, row in enumerate(spam_reader):
+                if i == 0:
                     continue
-                while(row[0]!=self.routes[route_index].id):
-                    route_index+=1
+                while row[0] != self.routes[route_index].id:
+                    route_index += 1
                 self.routes[route_index].add_trip(row)
 
-
-    def init_times_stops_from_file(self,foldername):
-        path =foldername + "/stop_times.txt"
-        with open(path, 'r') as csvfile:
-            spamreader = csv.reader(csvfile, delimiter=',', quotechar='"')
+    def init_times_stops_from_file(self, folder_name):
+        path = folder_name + "/stop_times.txt"
+        with open(path, 'r') as csv_file:
+            spam_reader = csv.reader(csv_file, delimiter=',', quotechar='"')
             route_index = 0
             trip_index = 0
-            for i, row in enumerate(spamreader):
-                if(i==0):
+            for i, row in enumerate(spam_reader):
+                if i == 0:
                     continue
-                while row[0]!=self.routes[route_index].trips[trip_index]:
-                    trip_index+=1
+                while row[0] != self.routes[route_index].trips[trip_index]:
+                    trip_index += 1
 
-                    if trip_index==len(self.routes[route_index].trips):
-                        trip_index=0
-                        route_index +=1
+                    if trip_index == len(self.routes[route_index].trips):
+                        trip_index = 0
+                        route_index += 1
 
                 self.routes[route_index].trips[trip_index].add_stop_time(row)
 
-    def init_from_line(self,line):
+    def init_from_line(self, line):
         self.id = line[0]
         self.name = line[1]
         self.url = line[2]
