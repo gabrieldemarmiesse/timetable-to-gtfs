@@ -1,6 +1,3 @@
-import Node
-
-
 class LinkedStops(object):
     """This class is here to create a map of the stops in a line
 it will have a structure of graph so will be implement as a dictionary
