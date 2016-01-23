@@ -43,6 +43,30 @@ where the bus doesn't usually go
     def create_from_file(self, path="../../gtfs"):
         stop_of_graph_list = self.read_file(path)
 
+        previous_node = None
+        node_before_separation = None
+        end_of_branch_node =None
+
+        for current_node in stop_of_graph_list:
+            if current_node.in_a_loop:
+                if previous_node.in_a_loop:
+                    if current_node.link_up:
+                        self.insert_node(current_node.name, previous_node.name)
+                    if previous_node.link_down:
+                        self.insert_node(previous_node.name,current_node.name)
+                else:
+
+                print("we have to do something")
+            else:
+                if previous_node.in_a_loop == False:
+                    if current_node.link_up:
+                        self.insert_node(current_node.name, previous_node.name)
+                    if previous_node.link_down:
+                        self.insert_node(previous_node.name,current_node.name)
+
+                else:
+                    print("yolo")
+
     def read_file(self,path):
         """this method parse the file line.txt to create a
         list of StopOfGraph which is much easier to use to
