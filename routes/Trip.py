@@ -1,5 +1,5 @@
 import Other
-import StopTime
+from routes import StopTime
 
 
 class Trip:

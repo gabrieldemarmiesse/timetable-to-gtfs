@@ -1,5 +1,5 @@
 import Other
-import Trip
+from routes import Trip
 
 
 class Route:

@@ -1,7 +1,9 @@
-import Other
-import Stop
-import Route
 import csv
+
+import Stop
+
+import Other
+from routes import Route
 
 
 class Agency:
