@@ -3,14 +3,17 @@ from routes import StopTime
 
 
 class Trip:
-    def __init__(self, line):
+    def __init__(self, id, list_stops, list_main_stops, list_times,service, line=None):
         self.id = "undefined id"
         self.service_id = "undefined service"
         self.route_id = "undefined route id"
         self.headsign = "undefined headsign"
         self.block_id = "undefined block id"
         self.stop_times = list()
-        self.init_from_line(line)
+        if line is not None:
+            self.init_from_line(line)
+        else:
+            self.init_from_lists(id, list_stops, list_main_stops, list_times,service)
         # self.init_stop_times()
 
     # Is used to create actually the trip
@@ -29,3 +32,8 @@ class Trip:
         if line[0] == self.id:
             stop_time = StopTime.StopTime(line)
             self.stop_times.append(stop_time)
+
+    def init_from_lists(self, id, list_stops, list_main_stops, list_times,service):
+        self.id = id
+        self.route
+        # TODO

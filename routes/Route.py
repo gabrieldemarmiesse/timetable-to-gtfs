@@ -26,10 +26,15 @@ class Route:
 
     def add_trip(self, line):
         print("trip" + line[2])
-        trip = Trip.Trip(line)
+        trip = Trip.Trip(line=line)
         self.trips.append(trip)
 
-    def add_trip_from_dictionary(self,path = "../gtfs/line.txt"):
+    def add_trip2(self,list_stops, list_main_stops, list_times,service):
+
+
+
+
+    def add_trip_from_times(self,list_main_stops, list_times,service,path = "../gtfs/line.txt"):
         """Here we give a dictionary where the keys are stops and the values are times of stops"""
 
         graph = LinkedStops.LinkedStops()

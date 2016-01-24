@@ -113,9 +113,16 @@ class Agency:
 
         # Right now, we have a table of horizontal lines.
         # We have to get vertical lines instead.
-        # TODO
 
+        # Transposed is the transposition of the table list_times
+        transposed = list(map(list, zip(*list_times)))
 
+        # Now we find the bus line in memory
+        for route in self.routes:
+            if route.id == route_name:
+                for times in transposed:
+                    route.add_trip_from_times(list_stops_names,times)
+                break
     @staticmethod
     def get_list_of_times_and_stop_name(line, separator=None, empty_time='-', sep_hours_minutes=':'):
         # This function parse a line of the timetable, it returns
