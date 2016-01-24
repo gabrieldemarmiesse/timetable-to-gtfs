@@ -55,7 +55,8 @@ where the bus doesn't usually go
                     if previous_node.link_down:
                         self.insert_node(previous_node.name,current_node.name)
                 else:
-
+                    self.insert_node(current_node.name, previous_node.name,node_before_separation)
+                    self.insert_node(previous_node.name,current_node.name)
                 print("we have to do something")
             else:
                 if previous_node.in_a_loop == False:
