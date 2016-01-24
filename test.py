@@ -1,4 +1,2 @@
-def yo(*a):
-    print(a)
-
-yo("fezfe", "fdzfez")
+a = ['a', 'b', 'c', 'd']
+print('*'+ ' '.join(a) + '*')

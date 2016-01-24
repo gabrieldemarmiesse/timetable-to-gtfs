@@ -1,10 +1,8 @@
 import csv
-
-import Stop
-
 import Other
+from routes import Stop
 from routes import Route
-
+import re
 
 class Agency:
     """ Agency is the class that contains all the data
@@ -90,3 +88,59 @@ class Agency:
         self.phone = line[4]
         self.language = line[5]
 
+    def add_timetable(self, file_path="gtfs/timetable.txt"):
+        # This function takes a timetable and convert it to a list of trips
+
+        with open(file_path) as f:
+            lines = f.readlines()
+        for line in lines:
+            line.strip()
+
+        # Here we get the name of the line and the service
+        first_line = lines[0]
+        first_line = first_line.split('\t')
+        first_line_splitted = [x for x in first_line if x != '']
+        route_name = first_line_splitted[0]
+        trips_service = first_line_splitted[1]
+
+        lines.pop(0)
+        list_stops_names = list()
+        list_times = list()
+        for line in lines:
+            name, times_list = Agency.get_list_of_times_and_stop_name(line)
+            list_stops_names.append(name)
+            list_times.append(times_list)
+
+        # Right now, we have a table of horizontal lines.
+        # We have to get vertical lines instead.
+        # TODO
+
+
+    @staticmethod
+    def get_list_of_times_and_stop_name(line, separator=None, empty_time='-', sep_hours_minutes=':'):
+        # This function parse a line of the timetable, it returns
+        # the name of the stop and the list of stop times
+
+        if separator is None:
+            contents = line.split()
+        else:
+            contents = line.split(separator)
+
+        regex = "^([0-9]|[0-9][0-9])" + sep_hours_minutes + "[0-9][0-9]$"
+
+        reverse_stop_name = list()
+        times_list = list()
+        for element in reversed(contents):
+            if re.match(regex, element):
+                times_list.append(element)
+            elif re.match("^-$",element):
+                times_list.append(None)
+            else:
+                # It means we got to the name of the stop
+                reverse_stop_name.append(element)
+
+        times_list = reversed(times_list)
+        stop_name = reversed(reverse_stop_name)
+        name = ' '.join(stop_name)
+
+        return name, times_list

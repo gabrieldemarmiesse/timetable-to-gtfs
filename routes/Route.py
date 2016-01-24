@@ -1,4 +1,5 @@
 import Other
+from routes.graph import LinkedStops
 from routes import Trip
 
 
@@ -11,7 +12,6 @@ class Route:
         self.type = "undefined route type"
         self.trips = list()
         self.init_from_line(line)
-        # Self.init_trips_from_file(path)
 
     def init_from_line(self, line):
         self.id = line[0]
@@ -28,3 +28,8 @@ class Route:
         print("trip" + line[2])
         trip = Trip.Trip(line)
         self.trips.append(trip)
+
+    def add_trip_from_dictionary(self,path = "../gtfs/line.txt"):
+        """Here we give a dictionary where the keys are stops and the values are times of stops"""
+
+        graph = LinkedStops.LinkedStops()
