@@ -68,7 +68,7 @@ where the bus doesn't usually go
                 else:
                     print("yolo")
 
-    def read_file(self,path):
+    def read_file(self, path):
         """this method parse the file line.txt to create a
         list of StopOfGraph which is much easier to use to
         create a graph"""
@@ -96,6 +96,45 @@ where the bus doesn't usually go
         self.line_id = lines[0]
         return stop_of_graph_list
 
+    def find_shortest_path(self, start, end, path=None):
+        if path is None:
+            path = []
+        path = path + [start]
+        if start == end:
+            return path
+        if start not in self.dictionary:
+            return None
+        shortest = None
+        for node in self.dictionary[start]:
+            if node not in path:
+                new_path = self.find_shortest_path(node, end, path)
+                if new_path:
+                    if not shortest or len(new_path) < len(shortest):
+                        shortest = new_path
+        return shortest
+
+    def find_complete_stops_list(self, list):
+        """this function finds the complete list of stops
+        based on the list of the main stops the bus is doing through"""
+
+        # List contains the main stops
+        # list_of_list contains the little stops which are not in the timetable
+
+        list_of_lists = list()
+        previous_stop = list[0]
+        for current_stop in list[1:]:
+            missing_stops = self.find_shortest_path(previous_stop,current_stop)
+            missing_stops.pop(0)
+            missing_stops.pop()
+            list_of_lists.happend(missing_stops)
+
+        # Now we fuses everything, the main stops and the little stops
+        complete_stops_list = [list[0],]
+        for i, current_main_stop in enumerate(list[1:]):
+            complete_stops_list += list_of_lists[i]
+            complete_stops_list.happend(current_main_stop)
+
+
+
 # Tests
-a = LinkedStops()
-b = 8
+#a = LinkedStops()
