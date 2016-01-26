@@ -7,6 +7,8 @@ class Calendar:
     def __init__(self):
         self.services = list()
         self.services.append(Service.Service("W", [1, 1, 1, 1, 1, 0, 0], 20160101, 20180101))
+        self.services.append(Service.Service("WS", [1, 1, 1, 1, 1, 1, 0], 20160101, 20180101))
+        self.services.append(Service.Service("WSD", [1, 1, 1, 1, 1, 1, 1], 20160101, 20180101))
         self.services.append(Service.Service("S", [0, 0, 0, 0, 0, 1, 0], 20160101, 20180101))
         self.services.append(Service.Service("D", [0, 0, 0, 0, 0, 0, 1], 20160101, 20180101))
         self.services.append(Service.Service("SD", [0, 0, 0, 0, 0, 1, 1], 20160101, 20180101))

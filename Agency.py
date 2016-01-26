@@ -2,7 +2,9 @@ import csv
 import Other
 from routes import Stop
 from routes import Route
+from calendar import Calendar
 import re
+
 
 class Agency:
     """ Agency is the class that contains all the data
@@ -23,7 +25,6 @@ class Agency:
         # Here we do the initialization from the files
         self.init_from_file(folder_name)
 
-
     # Initialize here the agency and ask user for information if
     # There is something missing
     def init_from_file(self, path="gtfs"):
@@ -31,7 +32,7 @@ class Agency:
         issue = Other.read_cvs(path, self.init_from_line)
         if issue:
             print("No file found, please answer the following questions: ")
-            self.init_from_line(["","","","","","","","","",""])
+            self.init_from_line(["", "", "", "", "", "", "", "", "", ""])
 
     def init_from_line(self, line):
         for element in line:
@@ -69,8 +70,11 @@ class Agency:
 
     def init_stops_from_file(self, path="gtfs"):
         path += "/stops.txt"
-        self.count = 0
-        Other.read_cvs(path, self.add_stop)
+
+        issue = Other.read_cvs(path, self.add_stop)
+        if issue:
+            print("No stop.txt file")
+
         print(str(self.count) + " stops have been imported from the file")
         self.count = 0
 
@@ -79,49 +83,62 @@ class Agency:
         self.stops.append(stop)
         self.count += 1
 
-    def init_calendar_from_file(self):
-
+    def init_calendar(self):
+        self.calendar = Calendar.Calendar()
 
     def init_routes_from_file(self, path="gtfs"):
         path += "/routes.txt"
-        Other.read_cvs(path, self.add_route)
+
+        issue = Other.read_cvs(path, self.add_route)
+        if issue:
+            print("The file routes.txt was not found")
+        print(str(self.count) + " routes were imported")
+        self.count = 0
 
     def add_route(self, line):
         route = Route.Route(line)
         self.routes.append(route)
-        print("creation route " + line[0])
+        self.count += 1
 
     def init_trips_from_file(self, folder_name="gtfs"):
         path = folder_name + "/trips.txt"
-        with open(path, 'r') as csv_file:
-            spam_reader = csv.reader(csv_file, delimiter=',', quotechar='"')
-            route_index = 0
-            for i, row in enumerate(spam_reader):
-                if i == 0:
-                    continue
-                while row[0] != self.routes[route_index].id:
-                    route_index += 1
-                self.routes[route_index].add_trip(row)
+        try:
+            with open(path, 'r') as csv_file:
+                spam_reader = csv.reader(csv_file, delimiter=',', quotechar='"')
+                route_index = 0
+                for i, row in enumerate(spam_reader):
+                    if i == 0:
+                        continue
+                    while row[0] != self.routes[route_index].id:
+                        route_index += 1
+                    self.routes[route_index].add_trip(row)
+                    self.count += 1
+        except:
+            print("The file " + path + " was not found")
+        print(str(self.count) + " trips were imported")
 
     def init_times_stops_from_file(self, folder_name="gtfs"):
         path = folder_name + "/stop_times.txt"
-        with open(path, 'r') as csv_file:
-            spam_reader = csv.reader(csv_file, delimiter=',', quotechar='"')
-            route_index = 0
-            trip_index = 0
-            for i, row in enumerate(spam_reader):
-                if i == 0:
-                    continue
-                while row[0] != self.routes[route_index].trips[trip_index]:
-                    trip_index += 1
+        try:
+            with open(path, 'r') as csv_file:
+                spam_reader = csv.reader(csv_file, delimiter=',', quotechar='"')
+                route_index = 0
+                trip_index = 0
+                for i, row in enumerate(spam_reader):
+                    if i == 0:
+                        continue
+                    while row[0] != self.routes[route_index].trips[trip_index]:
+                        trip_index += 1
 
-                    if trip_index == len(self.routes[route_index].trips):
-                        trip_index = 0
-                        route_index += 1
+                        if trip_index == len(self.routes[route_index].trips):
+                            trip_index = 0
+                            route_index += 1
 
-                self.routes[route_index].trips[trip_index].add_stop_time(row)
-
-
+                    self.routes[route_index].trips[trip_index].add_stop_time(row)
+                    self.count += 1
+        except:
+            print("The file " + path + " do not exist")
+        print(str(self.count) + " times stops were imported")
 
     def add_timetable(self, file_path="gtfs/timetable.txt"):
         # This function takes a timetable and convert it to a list of trips
@@ -156,8 +173,9 @@ class Agency:
         for route in self.routes:
             if route.id == route_name:
                 for times in transposed:
-                    route.add_trip_from_times(list_stops_names,times)
+                    route.add_trip_from_times(list_stops_names, times)
                 break
+
     @staticmethod
     def get_list_of_times_and_stop_name(line, separator=None, empty_time='-', sep_hours_minutes=':'):
         # This function parse a line of the timetable, it returns
@@ -175,7 +193,7 @@ class Agency:
         for element in reversed(contents):
             if re.match(regex, element):
                 times_list.append(element)
-            elif re.match("^-$",element):
+            elif re.match("^-$", element):
                 times_list.append(None)
             else:
                 # It means we got to the name of the stop
@@ -222,10 +240,15 @@ class Agency:
     @staticmethod
     def update():
         agency = Agency.add_gtfs()
+        print("\nImportation finished\n")
+
         agency.update_coordinates()
+        print("\nupdate of coordinates finished\n")
+
         agency.update_line()
+        print("\nUpdate of line finished")
+
         agency.update_times_stops()
+        print("\nUpdate of times stops finished\n")
+
         agency.print()
-
-
-
