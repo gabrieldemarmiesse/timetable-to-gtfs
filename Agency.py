@@ -6,6 +6,42 @@ from calendar import Calendar
 import re
 
 
+def read_coordinates():
+    try:
+        with open("sgtfs/coordinates.txt", 'r') as file:
+            lines = file.readline()
+
+            stop_counter = 0
+            coordinates_counter = 0
+
+            list_of_coordinates = list()
+            for line in lines:
+                stop_counter += 1
+
+                # Here we parse the line
+                line.strip("\t \n")
+                stop = line.split("\t")
+                parsed_line = [x for x in stop if x != '']
+
+                # We add it to the list if it contains coordinates
+                if len(parsed_line) > 1:
+
+                    # Parsing the coordinates
+                    coordinates = parsed_line[1].split(",")
+                    coordinates[0].strip()
+                    coordinates[1].strip()
+
+                    list_of_coordinates.append([parsed_line,coordinates[0],coordinates[1]])
+                    coordinates_counter += 1
+
+        print(str(stop_counter) + " stops were in the file")
+        print(str(coordinates_counter) + " coordinates were in the file")
+        return list_of_coordinates
+
+    except:
+        print("There is no sgtfs/coordinates.txt file")
+
+
 class Agency:
     """ Agency is the class that contains all the data
     This includes bus stops, stop times... etc"""
@@ -176,6 +212,25 @@ class Agency:
                     route.add_trip_from_times(list_stops_names, times)
                 break
 
+    def find_and_update(self, list_of_coordinates):
+
+        count_of_updates = 0
+        index = 0
+        for coordinates in list_of_coordinates:
+            while coordinates[0].lower() != self.stops[index].name.lower():
+                index += 1
+
+            # Here we compare the coordinates to know if they need to be updated
+            # It's just for counting reasons
+            if self.stops[index].latitude == coordinates[1]:
+                if self.stops[index].longitude == coordinates[2]:
+                    count_of_updates += 1
+
+            self.stops[index].latitude = coordinates[1]
+            self.stops[index].longitude = coordinates[2]
+
+        return count_of_updates
+
     @staticmethod
     def get_list_of_times_and_stop_name(line, separator=None, empty_time='-', sep_hours_minutes=':'):
         # This function parse a line of the timetable, it returns
@@ -221,7 +276,7 @@ class Agency:
         # Find updates in the coordinates
 
         # This is a list of triplet
-        list_of_coordinates = self.read_coordinates()
+        list_of_coordinates = read_coordinates()
         number_of_updated_stops = self.find_and_update(list_of_coordinates)
         print("we've updated " + number_of_updated_stops + "stop coordinates")
 
