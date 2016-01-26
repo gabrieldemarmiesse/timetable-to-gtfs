@@ -151,3 +151,31 @@ class Agency:
         name = ' '.join(stop_name)
 
         return name, times_list
+
+    @classmethod
+    def add_gtfs(cls):
+        print("Add gtfs folder data to our program")
+        return cls("something")
+
+    def update_coordinates(self):
+        print("Adding gps coordinates")
+
+    def update_line(self):
+        print("updates line_something.txt")
+        
+    def update_times_stops(self):
+        print("read the timetable")
+
+    def print(self):
+        print("write in gtfs folder")
+
+    @staticmethod
+    def update():
+        agency = Agency.add_gtfs()
+        agency.update_coordinates()
+        agency.update_line()
+        agency.update_times_stops()
+        agency.print()
+
+
+
