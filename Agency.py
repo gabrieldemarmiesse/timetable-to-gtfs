@@ -17,31 +17,72 @@ class Agency:
         self.language = "undefined language"
         self.stops = list()
         self.routes = list()
-        self.calendar  = "undefined calendar"
+        self.calendar = "undefined calendar"
+        self.count = 0
 
         # Here we do the initialization from the files
         self.init_from_file(folder_name)
-        self.init_stops_from_file(folder_name)
-        self.init_routes_from_file(folder_name)
-        self.init_trips_from_file(folder_name)
-        self.init_times_stops_from_file(folder_name)
+
 
     # Initialize here the agency and ask user for information if
     # There is something missing
-    def init_from_file(self, path):
+    def init_from_file(self, path="gtfs"):
         path += "/agency.txt"
-        Other.read_cvs(path, self.init_from_line)
+        issue = Other.read_cvs(path, self.init_from_line)
+        if issue:
+            print("No file found, please answer the following questions: ")
+            self.init_from_line(["","","","","","","","","",""])
 
-    def init_stops_from_file(self, path):
+    def init_from_line(self, line):
+        for element in line:
+            element.strip("\t ")
+
+        if line[0] == "":
+            self.id = input("The agency Id is missing, please provide it now: ")
+        else:
+            self.id = line[0]
+
+        if line[1] == "":
+            self.name = input("The agency name is missing, please provide it now: ")
+        else:
+            self.name = line[1]
+
+        if line[2] == "":
+            self.url = input("The agency url is missing, please provide it now: ")
+        else:
+            self.url = line[2]
+
+        if line[3] == "":
+            self.timezone = input("The agency timezone is missing, please provide it now: ")
+        else:
+            self.timezone = line[3]
+
+        if line[4] == "":
+            self.phone = input("The agency phone is missing, please provide it now: ")
+        else:
+            self.phone = line[4]
+
+        if line[5] == "":
+            self.language = input("The agency language is missing, please provide it now: ")
+        else:
+            self.language = line[5]
+
+    def init_stops_from_file(self, path="gtfs"):
         path += "/stops.txt"
+        self.count = 0
         Other.read_cvs(path, self.add_stop)
+        print(str(self.count) + " stops have been imported from the file")
+        self.count = 0
 
     def add_stop(self, line):
         stop = Stop.Stop(line)
         self.stops.append(stop)
-        print("added stop " + line[0])
+        self.count += 1
 
-    def init_routes_from_file(self, path):
+    def init_calendar_from_file(self):
+
+
+    def init_routes_from_file(self, path="gtfs"):
         path += "/routes.txt"
         Other.read_cvs(path, self.add_route)
 
@@ -50,7 +91,7 @@ class Agency:
         self.routes.append(route)
         print("creation route " + line[0])
 
-    def init_trips_from_file(self, folder_name):
+    def init_trips_from_file(self, folder_name="gtfs"):
         path = folder_name + "/trips.txt"
         with open(path, 'r') as csv_file:
             spam_reader = csv.reader(csv_file, delimiter=',', quotechar='"')
@@ -62,7 +103,7 @@ class Agency:
                     route_index += 1
                 self.routes[route_index].add_trip(row)
 
-    def init_times_stops_from_file(self, folder_name):
+    def init_times_stops_from_file(self, folder_name="gtfs"):
         path = folder_name + "/stop_times.txt"
         with open(path, 'r') as csv_file:
             spam_reader = csv.reader(csv_file, delimiter=',', quotechar='"')
@@ -80,13 +121,7 @@ class Agency:
 
                 self.routes[route_index].trips[trip_index].add_stop_time(row)
 
-    def init_from_line(self, line):
-        self.id = line[0]
-        self.name = line[1]
-        self.url = line[2]
-        self.timezone = line[3]
-        self.phone = line[4]
-        self.language = line[5]
+
 
     def add_timetable(self, file_path="gtfs/timetable.txt"):
         # This function takes a timetable and convert it to a list of trips
@@ -154,19 +189,34 @@ class Agency:
 
     @classmethod
     def add_gtfs(cls):
-        print("Add gtfs folder data to our program")
-        return cls("something")
+        # To add the folder gtfs to our program
+        agency = cls()
+        agency.init_stops_from_file()
+        agency.init_calendar()
+        agency.init_routes_from_file()
+        agency.init_trips_from_file()
+        agency.init_times_stops_from_file()
+
+        return agency
 
     def update_coordinates(self):
-        print("Adding gps coordinates")
+        # Find updates in the coordinates
+
+        # This is a list of triplet
+        list_of_coordinates = self.read_coordinates()
+        number_of_updated_stops = self.find_and_update(list_of_coordinates)
+        print("we've updated " + number_of_updated_stops + "stop coordinates")
 
     def update_line(self):
+        # Find updates in the lines
         print("updates line_something.txt")
-        
+
     def update_times_stops(self):
+        # Use the timetable to update
         print("read the timetable")
 
     def print(self):
+        # Print everything into files to the gtfs folder
         print("write in gtfs folder")
 
     @staticmethod
