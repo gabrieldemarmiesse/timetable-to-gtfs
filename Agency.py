@@ -1,3 +1,4 @@
+
 import csv
 import Other
 import os
@@ -94,7 +95,7 @@ class Agency:
         self.language = "undefined language"
         self.stops = list()
         self.routes = list()
-        self.calendar = "undefined calendar"
+        self.calendar = Calendar.Calendar()
         self.count = 0
 
         # Here we do the initialization from the files
@@ -104,7 +105,7 @@ class Agency:
     # There is something missing
     def init_from_file(self, path="gtfs"):
         path += "/agency.txt"
-        issue = Other.read_cvs(path, self.init_from_line)
+        issue = Other.read_csv(path, self.init_from_line)
         if issue:
             print("No file found, please answer the following questions: ")
             self.init_from_line(["", "", "", "", "", "", "", "", "", ""])
@@ -154,13 +155,13 @@ class Agency:
         return agency_list
 
     @staticmethod
-    def get_first_cvs_line():
+    def get_first_csv_line():
         return "agency_id, agency_name,agency_url,agency_timezone,agency_phone,agency_lang\n"
 
     def init_stops_from_file(self, path="gtfs"):
         path += "/stops.txt"
 
-        issue = Other.read_cvs(path, self.add_stop)
+        issue = Other.read_csv(path, self.add_stop)
         if issue:
             print("No stop.txt file")
 
@@ -172,13 +173,10 @@ class Agency:
         self.stops.append(stop)
         self.count += 1
 
-    def init_calendar(self):
-        self.calendar = Calendar.Calendar()
-
     def init_routes_from_file(self, path="gtfs"):
         path += "/routes.txt"
 
-        issue = Other.read_cvs(path, self.add_route)
+        issue = Other.read_csv(path, self.add_route)
         if issue:
             print("The file routes.txt was not found")
         print(str(self.count) + " routes were imported")
@@ -318,11 +316,9 @@ class Agency:
         # To add the folder gtfs to our program
         agency = cls()
         agency.init_stops_from_file()
-        agency.init_calendar()
         agency.init_routes_from_file()
         agency.init_trips_from_file()
         agency.init_times_stops_from_file()
-
         return agency
 
     def update_coordinates(self):
@@ -360,8 +356,6 @@ class Agency:
         else:
             print("line.txt is empty or does not exist")
 
-
-
     def update_times_stops(self):
         # Use the timetable to update
         print("read the timetable")
@@ -369,6 +363,13 @@ class Agency:
     def print(self):
         # Print everything into files to the gtfs folder
         print("write in gtfs folder")
+        Other.export_in_csv([self, ], "agency.txt")
+        Other.export_in_csv(self.routes, "routes.txt")
+        Other.export_in_csv(self.stops, "stops.txt")
+        list_of_services = self.calendar.services
+
+        Other.export_in_csv(self.calendar.services, "calendar.txt")
+        Other.export_in_csv(self.)
 
     @staticmethod
     def update():

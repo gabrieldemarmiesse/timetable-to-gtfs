@@ -10,6 +10,9 @@ class Stop:
         self.parent_station = "undefined parent station"
         self.init_from_line(line)
 
+    def __lt__(self, other):
+        return self.id < other.id
+
     def init_from_line(self, line):
         self.id = line[0]
         self.name = line[1]
@@ -32,6 +35,9 @@ class Stop:
         list1.append(self.parent_station)
         return list1
 
+
+
+
     @staticmethod
-    def get_first_cvs_line():
+    def get_first_csv_line():
         return "stop_id,stop_name,stop_desc,stop_lat,stop_lon,stop_url,location_type,parent_station\n"

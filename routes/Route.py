@@ -13,6 +13,9 @@ class Route:
         self.trips = list()
         self.init_from_line(line)
 
+    def __lt__(self, other):
+        return self.id < other.id
+
     def init_from_line(self, line):
         self.id = line[0]
         self.short_name = line[1]
@@ -30,16 +33,16 @@ class Route:
         return elements_list
 
     @staticmethod
-    def get_first_cvs_line():
+    def get_first_csv_line():
         return "route_id,route_short_name,route_long_name,route_desc,route_type\n"
 
     def init_trips_from_file(self, path="gtfs"):
         path += "/trips.txt"
-        Other.read_cvs(path, self.add_trip)
+        Other.read_csv(path, self.add_trip)
 
     def add_trip(self, line):
         print("trip" + line[2])
-        trip = Trip.Trip.from_cvs(line)
+        trip = Trip.Trip.from_csv(line)
         self.trips.append(trip)
 
     def add_trip_from_times(self,list_main_stops, list_times,service,path = "../gtfs/line.txt"):

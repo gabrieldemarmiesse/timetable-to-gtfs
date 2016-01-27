@@ -1,7 +1,7 @@
 import csv
 import os
 
-def read_cvs(path, func):
+def read_csv(path, func):
     """
     This method execute a function for each line of a file (except the first one)
     :param path: the path of the file to open
@@ -22,7 +22,7 @@ def read_cvs(path, func):
 
 
 def list_to_csv(list_of_elements):
-    # Convert a list of elements to a cvs line
+    # Convert a list of elements to a csv line
 
     line = ""
     for element in list_of_elements:
@@ -38,7 +38,7 @@ def list_to_csv(list_of_elements):
 
 def export_in_csv(objects_list, filename):
     if len(objects_list) > 0:
-        first_line = objects_list[0].get_first_line_cvs()
+        first_line = objects_list[0].get_first_line_csv()
         path = "gtfs/" + filename
         os.remove(path)
         file = open(path, 'w')

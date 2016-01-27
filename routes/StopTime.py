@@ -20,7 +20,7 @@ class StopTime:
     @classmethod
     def init_from_line(cls, line):
         """
-        :param line: The parsed cvs line
+        :param line: The parsed csv line
         :return: A StopTime object
         """
         return cls(line[0],  line[3], line[4], line[1], line[5], line[6], line[2])
@@ -36,6 +36,6 @@ class StopTime:
         elements_list.append(self.drop_off_type)
 
     @staticmethod
-    def get_first_cvs_line(self):
+    def get_first_csv_line(self):
         return "trip_id,arrival_time,departure_time,stop_id,stop_sequence,pickup_type,drop_off_type\n"
 

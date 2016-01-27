@@ -15,11 +15,17 @@ class Trip:
         else:
             self.stop_times = stop_times
 
+    def __lt__(self,other):
+        if self.route_id == other.route_id:
+            return self.trip_id < other.trip_id
+        else:
+            return self.route_id < other.route_id
+
     # Two constructor overloads
     @classmethod
-    def from_cvs(cls, line):
-        """ Create an Trip object from a parsed cvs line
-        :param line: parsed cvs line
+    def from_csv(cls, line):
+        """ Create an Trip object from a parsed csv line
+        :param line: parsed csv line
         :return: A Trip object without the stop_times
         """
 
@@ -52,7 +58,7 @@ class Trip:
     # Initialize the stop times from a given path(gtfs by default)
     def init_stop_times(self, path="gtfs"):
         path += "/stop_times.txt"
-        Other.read_cvs(path, self.add_stop_time)
+        Other.read_csv(path, self.add_stop_time)
 
     def add_stop_time(self, line):
         if line[0] == self.trip_id:
