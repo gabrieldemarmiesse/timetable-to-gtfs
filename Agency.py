@@ -41,6 +41,21 @@ def read_coordinates():
     except:
         print("There is no sgtfs/coordinates.txt file")
 
+def read_line_sgtfs():
+    a= "bla"
+
+
+def create_line_file(name):
+    pass
+
+
+def get_name(new_line):
+    pass
+
+
+def write(new_line, filename):
+    pass
+
 
 class Agency:
     """ Agency is the class that contains all the data
@@ -283,6 +298,25 @@ class Agency:
     def update_line(self):
         # Find updates in the lines
         print("updates line_something.txt")
+        new_line = read_line_sgtfs("line.txt")
+        if len(new_line) > 0 :
+            line_name = get_name(new_line)
+            old_line = read_line_sgtfs("line_" + line_name + ".txt")
+            if len(old_line) == 0:
+                print("Creating the file line_" + line_name + ".txt")
+                create_line_file("line_" + line_name + ".txt")
+                print("updating the line file now:")
+                write(new_line, "line_" + line_name + ".txt")
+            else:
+                if old_line == new_line:
+                    print("The line file is up to date")
+                else:
+                    print("updating the line file now:")
+                    write(new_line, "line_" + line_name + ".txt")
+        else:
+            print("line.txt is empty or does not exist")
+
+
 
     def update_times_stops(self):
         # Use the timetable to update
