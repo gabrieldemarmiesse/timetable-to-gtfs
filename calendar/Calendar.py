@@ -22,3 +22,14 @@ class Calendar:
     def init_services(self, path):
         path += "/calendar.txt"
         calendar_file = open(path, "r")
+
+    @staticmethod
+    def get_dictionary():
+        dictionary = { "W"  : 1,
+                       "WS" : 2,
+                       "WSD": 3,
+                       "S"  : 4,
+                       "D"  : 5,
+                       "SD" : 6,
+                       "DV" : 7}
+        return dictionary

@@ -1,4 +1,5 @@
 import Other
+from calendar import Calendar
 from routes import StopTime
 
 
@@ -16,10 +17,13 @@ class Trip:
             self.stop_times = stop_times
 
     def __lt__(self,other):
-        if self.route_id == other.route_id:
-            return self.trip_id < other.trip_id
+
+        dictionary = Calendar.Calendar.get_dictionary()
+
+        if self.service_id == other.service_id:
+            return self.stop_times[0].arrival_time < other.stop_times[0].arrival_time
         else:
-            return self.route_id < other.route_id
+            return dictionary[self.service_id] < dictionary[other.service_id]
 
     # Two constructor overloads
     @classmethod

@@ -364,12 +364,24 @@ class Agency:
         # Print everything into files to the gtfs folder
         print("write in gtfs folder")
         Other.export_in_csv([self, ], "agency.txt")
-        Other.export_in_csv(self.routes, "routes.txt")
-        Other.export_in_csv(self.stops, "stops.txt")
-        list_of_services = self.calendar.services
-
         Other.export_in_csv(self.calendar.services, "calendar.txt")
-        Other.export_in_csv(self.)
+
+        list_of_stops = sorted(self.stops)
+        Other.export_in_csv(list_of_stops, "stops.txt")
+
+        list_of_routes = sorted(self.routes)
+        Other.export_in_csv(list_of_routes, "routes.txt")
+
+        list_of_trips = list()
+        for route in list_of_routes:
+            sorted_list_of_trips = sorted(route.trips)
+            list_of_trips += sorted_list_of_trips
+        Other.export_in_csv(list_of_routes, "trips.txt")
+
+        list_of_stops_times = list()
+        for trip in list_of_trips:
+            list_of_stops_times += trip.stop_times
+        Other.export_in_csv(list_of_stops_times, "stop_times.txt")
 
     @staticmethod
     def update():
@@ -386,3 +398,5 @@ class Agency:
         print("\nUpdate of times stops finished\n")
 
         agency.print()
+        
+        print("All done")
