@@ -19,3 +19,24 @@ def read_cvs(path, func):
     except :
         # There was an issue while opening the file
         return True
+
+
+def list_to_csv(list_of_elements):
+    # Convert a list of elements to a cvs line
+
+    line = ""
+    for element in list_of_elements:
+        csv_element = ",\"" + element + "\""
+        line += csv_element
+
+    line += "\n"
+
+    # There is a comma at the beggining
+    line_witout_first_comma = line[1:]
+    return line_witout_first_comma
+
+
+def export_in_csv(objects_list, first_line, filename):
+    pass
+
+    # TODO
