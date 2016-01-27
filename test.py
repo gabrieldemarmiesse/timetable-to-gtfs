@@ -1,1 +1,2 @@
-open("sgtfs/rororo", 'r')
+file = open("yolo","w")
+file.write("blabla")

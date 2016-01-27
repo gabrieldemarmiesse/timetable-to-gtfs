@@ -143,6 +143,20 @@ class Agency:
         else:
             self.language = line[5]
 
+    def to_list(self):
+        agency_list = list()
+        agency_list.append(self.id)
+        agency_list.append(self.name)
+        agency_list.append(self.url)
+        agency_list.append(self.timezone)
+        agency_list.append(self.phone)
+        agency_list.append(self.language)
+        return agency_list
+
+    @staticmethod
+    def get_first_cvs_line():
+        return "agency_id, agency_name,agency_url,agency_timezone,agency_phone,agency_lang\n"
+
     def init_stops_from_file(self, path="gtfs"):
         path += "/stops.txt"
 

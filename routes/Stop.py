@@ -18,3 +18,20 @@ class Stop:
         self.longitude = line[4]
         self.url = line[5]
         self.locationType = line[6]
+        self.parent_station = line[7]
+
+    def to_list(self):
+        list1 = list()
+        list1.append(self.id)
+        list1.append(self.name)
+        list1.append(self.description)
+        list1.append(self.latitude)
+        list1.append(self.longitude)
+        list1.append(self.url)
+        list1.append(self.locationType)
+        list1.append(self.parent_station)
+        return list1
+
+    @staticmethod
+    def get_first_cvs_line():
+        return "stop_id,stop_name,stop_desc,stop_lat,stop_lon,stop_url,location_type,parent_station\n"

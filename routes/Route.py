@@ -20,6 +20,19 @@ class Route:
         self.description = line[3]
         self.type = line[4]
 
+    def to_list(self):
+        elements_list = list()
+        elements_list.append(self.id)
+        elements_list.append(self.short_name)
+        elements_list.append(self.long_name)
+        elements_list.append(self.description)
+        elements_list.append(self.type)
+        return elements_list
+
+    @staticmethod
+    def get_first_cvs_line():
+        return "route_id,route_short_name,route_long_name,route_desc,route_type\n"
+
     def init_trips_from_file(self, path="gtfs"):
         path += "/trips.txt"
         Other.read_cvs(path, self.add_trip)

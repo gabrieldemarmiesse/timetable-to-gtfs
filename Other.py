@@ -1,5 +1,5 @@
 import csv
-
+import os
 
 def read_cvs(path, func):
     """
@@ -36,7 +36,16 @@ def list_to_csv(list_of_elements):
     return line_witout_first_comma
 
 
-def export_in_csv(objects_list, first_line, filename):
-    pass
+def export_in_csv(objects_list, filename):
+    if len(objects_list) > 0:
+        first_line = objects_list[0].get_first_line_cvs()
+        path = "gtfs/" + filename
+        os.remove(path)
+        file = open(path, 'w')
+        file.write(first_line + "\n")
+        for my_object in objects_list:
+            file.write(list_to_csv(my_object.to_list()))
 
-    # TODO
+        print("finished exporting " + filename)
+    else:
+        print("The list of objects was empty")
