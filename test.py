@@ -1,1 +1,1 @@
-print(len(False))
+open("sgtfs/rororo", 'r')

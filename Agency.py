@@ -1,5 +1,6 @@
 import csv
 import Other
+import os
 from routes import Stop
 from routes import Route
 from calendar import Calendar
@@ -41,20 +42,43 @@ def read_coordinates():
     except:
         print("There is no sgtfs/coordinates.txt file")
 
-def read_line_sgtfs():
-    a= "bla"
 
+def read_line_sgtfs(filename):
+    """
+    :param filename: The name of the file in the sgtfs folder
+    :return: A list of lines stripped of \n
+    """
+    path = "sgtfs/" + filename
+    try:
+        with open(path) as f:
+            lines = f.readlines()
 
-def create_line_file(name):
-    pass
+    except FileNotFoundError:
+        return ["", ]
+
+    else:
+        other_list = list()
+        for line in lines:
+            other_list.append(line.strip())
+        return other_list
 
 
 def get_name(new_line):
-    pass
+    # Get the name of the line
+    return new_line[0]
+
+
+def create_line_file(name):
+    path = "sgtfs/" + name
+    open(path, 'a').close()
 
 
 def write(new_line, filename):
-    pass
+    # Write the lines of the list in the file called filename
+    path = "sgtfs/" + filename
+    line_file = open(path, "w")
+    for line in new_line:
+        line_file.write(line + "\n")
 
 
 class Agency:
@@ -299,20 +323,26 @@ class Agency:
         # Find updates in the lines
         print("updates line_something.txt")
         new_line = read_line_sgtfs("line.txt")
-        if len(new_line) > 0 :
+
+        if len(new_line) > 0:
             line_name = get_name(new_line)
-            old_line = read_line_sgtfs("line_" + line_name + ".txt")
+            name_file = "line_" + line_name + ".txt"
+            old_line = read_line_sgtfs(name_file)
+
+            # We check if the line file already existed or not
             if len(old_line) == 0:
-                print("Creating the file line_" + line_name + ".txt")
-                create_line_file("line_" + line_name + ".txt")
+                print("Creating the file " + name_file)
+                create_line_file(name_file)
                 print("updating the line file now:")
-                write(new_line, "line_" + line_name + ".txt")
+                write(new_line, name_file)
             else:
                 if old_line == new_line:
                     print("The line file is up to date")
                 else:
                     print("updating the line file now:")
-                    write(new_line, "line_" + line_name + ".txt")
+                    os.remove(name_file)
+                    create_line_file(name_file)
+                    write(new_line, name_file)
         else:
             print("line.txt is empty or does not exist")
 
