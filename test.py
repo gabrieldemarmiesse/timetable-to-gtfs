@@ -1,2 +1,2 @@
-file = open("yolo","w")
-file.write("blabla")
+a = list(["frefre", "fezfezf","fezfezfe"])
+print(a[4])

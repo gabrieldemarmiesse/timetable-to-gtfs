@@ -183,7 +183,7 @@ class Agency:
         self.count = 0
 
     def add_route(self, line):
-        route = Route.Route(line)
+        route = Route.Route.from_csv(line)
         self.routes.append(route)
         self.count += 1
 
@@ -227,42 +227,6 @@ class Agency:
             print("The file " + path + " do not exist")
         print(str(self.count) + " times stops were imported")
 
-    def add_timetable(self, file_path="gtfs/timetable.txt"):
-        # This function takes a timetable and convert it to a list of trips
-
-        with open(file_path) as f:
-            lines = f.readlines()
-        for line in lines:
-            line.strip()
-
-        # Here we get the name of the line and the service
-        first_line = lines[0]
-        first_line = first_line.split('\t')
-        first_line_splitted = [x for x in first_line if x != '']
-        route_name = first_line_splitted[0]
-        trips_service = first_line_splitted[1]
-
-        lines.pop(0)
-        list_stops_names = list()
-        list_times = list()
-        for line in lines:
-            name, times_list = Agency.get_list_of_times_and_stop_name(line)
-            list_stops_names.append(name)
-            list_times.append(times_list)
-
-        # Right now, we have a table of horizontal lines.
-        # We have to get vertical lines instead.
-
-        # Transposed is the transposition of the table list_times
-        transposed = list(map(list, zip(*list_times)))
-
-        # Now we find the bus line in memory
-        for route in self.routes:
-            if route.id == route_name:
-                for times in transposed:
-                    route.add_trip_from_times(list_stops_names, times)
-                break
-
     def find_and_update(self, list_of_coordinates):
 
         count_of_updates = 0
@@ -283,7 +247,7 @@ class Agency:
         return count_of_updates
 
     @staticmethod
-    def get_list_of_times_and_stop_name(line, separator=None, empty_time='-', sep_hours_minutes=':'):
+    def get_list_of_times_and_stop_name(line, sep_hours_minutes=':', empty_time='-', separator=None):
         # This function parse a line of the timetable, it returns
         # the name of the stop and the list of stop times
 
@@ -299,7 +263,7 @@ class Agency:
         for element in reversed(contents):
             if re.match(regex, element):
                 times_list.append(element)
-            elif re.match("^-$", element):
+            elif re.match('^' + empty_time + '$', element):
                 times_list.append(None)
             else:
                 # It means we got to the name of the stop
@@ -356,9 +320,67 @@ class Agency:
         else:
             print("line.txt is empty or does not exist")
 
-    def update_times_stops(self):
-        # Use the timetable to update
-        print("read the timetable")
+    def add_timetable(self, file_path="gtfs/timetable.txt"):
+        # This function takes a timetable and convert it to a list of trips
+
+        with open(file_path) as f:
+            lines = f.readlines()
+        for line in lines:
+            line.strip()
+
+        # Here we get the name of the line and the service
+        first_line = lines[0]
+        first_line = first_line.split('\t')
+        first_line_splitted = [x for x in first_line if x != '']
+        route_name = first_line_splitted[0]
+        trips_service = first_line_splitted[1]
+        try:
+            empty_time = first_line_splitted[2]
+        except IndexError:
+            empty_time = "-"
+        try:
+            separator = first_line_splitted[3]
+        except IndexError:
+            separator = ":"
+
+        lines.pop(0)
+        list_stops_names = list()
+        list_times = list()
+        for line in lines:
+            name, times_list = Agency.get_list_of_times_and_stop_name(line, separator, empty_time)
+            list_stops_names.append(name)
+            list_times.append(times_list)
+
+        # Right now, we have a table of horizontal lines.
+        # We have to get vertical lines instead.
+
+        # Transposed is the transposition of the table list_times
+        transposed = list(map(list, zip(*list_times)))
+
+        # It's time for a little check.
+        # It would be inconvenient that a bug allows to write anything in the files
+        l = len(list_stops_names)
+        for times in transposed:
+            if l != len(times):
+                print("issue of lenght at the list " + times[0])
+                assert l == len(times)
+
+        # Now we find the bus line in memory
+        route1 = None
+        for route in self.routes:
+            if route.id == route_name:
+                route1 = route
+                break
+
+        if route1 is None:
+            # Then we have to create the bus line (add a route to the agency)
+            route1 = Route.Route.from_stops_list(route_name, list_stops_names)
+
+        count = 0
+        for times in transposed:
+            route1.add_trip_from_times(list_stops_names, times, trips_service)
+            count += 1
+        print(str(count) + " trips have been added to the line " + route_name)
 
     def print(self):
         # Print everything into files to the gtfs folder
@@ -394,9 +416,9 @@ class Agency:
         agency.update_line()
         print("\nUpdate of line finished")
 
-        agency.update_times_stops()
+        agency.add_timetable()
         print("\nUpdate of times stops finished\n")
 
         agency.print()
-        
+
         print("All done")

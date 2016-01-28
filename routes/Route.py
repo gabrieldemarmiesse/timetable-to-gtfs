@@ -4,14 +4,40 @@ from routes import Trip
 
 
 class Route:
-    def __init__(self, line, path="gtfs"):
-        self.id = "undefined id"
-        self.short_name = "undefined short name"
-        self.long_name = "undefined long name"
-        self.description = "undefined description"
-        self.type = "undefined route type"
-        self.trips = list()
-        self.init_from_line(line)
+    # A route correspond to a bus line
+
+    def __init__(self, route_id, long_name, short_name=None, type="3", description="", trips=None):
+        self.id = route_id
+
+        if short_name is None:
+            self.short_name = route_id
+        else:
+            self.short_name = short_name
+
+        self.long_name = long_name
+        self.description = description
+        self.type = type
+
+        if trips is None:
+            self.trips = list()
+        else:
+            self.trips = trips
+
+    @classmethod
+    def from_csv(cls, line):
+        """Create an Route from a csv line
+        :param line: A parsed csv line
+        :return: A Route object
+        """
+        return cls(line[0], line[2], line[1], line[4], line[3])
+
+    @classmethod
+    def from_stops_list(cls, route_name, list_stops_names):
+        # Create a route from the list of main stops
+
+        lenght = len(list_stops_names)
+        long_name = list_stops_names[0] + " - " + list_stops_names[lenght - 1]
+        return cls(route_name, long_name)
 
     def __lt__(self, other):
         return self.id < other.id
@@ -22,6 +48,8 @@ class Route:
         self.long_name = line[2]
         self.description = line[3]
         self.type = line[4]
+
+
 
     def to_list(self):
         elements_list = list()
@@ -45,8 +73,7 @@ class Route:
         trip = Trip.Trip.from_csv(line)
         self.trips.append(trip)
 
-    def add_trip_from_times(self,list_main_stops, list_times,service,path = "../gtfs/line.txt"):
-        """Here we give a dictionary where the keys are stops and the values are times of stops"""
+    def add_trip_from_times(self, list_main_stops, list_times, service, path = "../gtfs/line.txt"):
 
         graph = LinkedStops.LinkedStops()
         complete_stop_list = graph.find_complete_stops_list(list_main_stops)
