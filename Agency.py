@@ -169,7 +169,7 @@ class Agency:
         self.count = 0
 
     def add_stop(self, line):
-        stop = Stop.Stop(line)
+        stop = Stop.Stop.init_from_line(line)
         self.stops.append(stop)
         self.count += 1
 
@@ -247,7 +247,29 @@ class Agency:
         return count_of_updates
 
     def update_stops(self, li):
-        pass
+        # First add the stops
+        for stop in li:
+            found = False
+            stop_id2 = stop.name.replace(" ", "")
+            stop_id1 = stop_id2.replace(".", "")
+            stop_id3 = stop_id1.replace("'", "")
+            stop_id = stop_id3.replace("-", "")
+            stop_id_again = stop_id.lower()
+            for stop_in_memory in self.stops:
+                if stop_in_memory.id == stop_id_again:
+                    found = True
+                    break
+            if not found:
+                self.stops.append(Stop.Stop(stop.name, stop_id_again))
+
+        # Then delete the file
+        os.remove("sgtfs/coordinates.txt")
+
+        # Then print stops which don't have coordinates
+        with open("sgtfs/coordinates.txt", "w") as f:
+            for stop in self.stops:
+                if stop.latitude == "":
+                    f.write(stop.name)
 
     @staticmethod
     def get_list_of_times_and_stop_name(line, sep_hours_minutes=':', empty_time='-', separator=None):

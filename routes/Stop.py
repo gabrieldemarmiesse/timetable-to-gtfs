@@ -1,27 +1,22 @@
 class Stop:
-    def __init__(self, line):
-        self.id = "undefined id"
-        self.name = "undefined name"
-        self.description = "undefined description"
-        self.latitude = "undefined latitude"
-        self.longitude = "undefined longitude"
-        self.url = "undefined url"
-        self.locationType = "undefined type"
-        self.parent_station = "undefined parent station"
-        self.init_from_line(line)
+    def __init__(self, name, id=None, description="", latitude="", longitude="",
+                 url="", location_type="", parent_station=""):
+
+        self.id = id
+        self.name = name
+        self.description = description
+        self.latitude = latitude
+        self.longitude = longitude
+        self.url = url
+        self.locationType = location_type
+        self.parent_station = parent_station
 
     def __lt__(self, other):
         return self.id < other.id
 
-    def init_from_line(self, line):
-        self.id = line[0]
-        self.name = line[1]
-        self.description = line[2]
-        self.latitude = line[3]
-        self.longitude = line[4]
-        self.url = line[5]
-        self.locationType = line[6]
-        self.parent_station = line[7]
+    @classmethod
+    def init_from_line(cls, line):
+        return cls(line[1], line[0], line[2], line[3], line[4], line[5], line[6], line[7])
 
     def to_list(self):
         list1 = list()
