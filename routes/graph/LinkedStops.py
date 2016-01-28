@@ -44,34 +44,30 @@ where the bus doesn't usually go
     def create_from_file(self, route_id, path="../../sgtfs"):
         self.list_stops_of_graph_list = self.read_file(path, route_id)
 
+        previous_node = self.list_stops_of_graph_list[0]
+        node_before_star1 = None
+        node_before_star2 = None
+        node_before_slash =None
+        star_count = 0
 
-
-        previous_node = None
-        node_before_separation = None
-        end_of_branch_node =None
-
-        for current_node in self.list_stops_of_graph_list:
-            if current_node.in_a_loop:
-                if previous_node.in_a_loop:
-                    if current_node.link_up:
-                        self.insert_node(current_node.name, previous_node.name)
-                    if previous_node.link_down:
-                        self.insert_node(previous_node.name,current_node.name)
-                else:
-                    self.insert_node(current_node.name, previous_node.name,node_before_separation)
-                    self.insert_node(previous_node.name,current_node.name)
-                print("we have to do something")
+        for i, current_node in enumerate(self.list_stops_of_graph_list[1:]):
+            current_stop = current_node.name
+            if current_stop == "*":
+                node_before_star1 = previous_node
+                node_before_star2 = node_before_star1
+                star_count += 1
+            elif current_stop == "/":
+                node_before_slash = previous_node
             else:
-                if not previous_node.in_a_loop:
-                    if current_node.link_up:
-                        self.insert_node(current_node.name, previous_node.name)
-                    if previous_node.link_down:
-                        self.insert_node(previous_node.name,current_node.name)
-
+                if previous_node.name == "*":
+                    if star_count % 2 == 0:
+                        pass
+                    else:
+                        pass
+                elif  previous_node.name == "/":
+                    pass
                 else:
-                    print("yolo")
-
-                    # TODO
+            previous_node = current_node
 
     def read_file(self, path, route_id):
         """this method parse the file line.txt to create a
