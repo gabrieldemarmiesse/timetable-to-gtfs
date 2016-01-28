@@ -23,6 +23,8 @@ class Route:
         else:
             self.trips = trips
 
+        self.graph = None
+
     @classmethod
     def from_csv(cls, line):
         """Create an Route from a csv line
@@ -49,8 +51,6 @@ class Route:
         self.description = line[3]
         self.type = line[4]
 
-
-
     def to_list(self):
         elements_list = list()
         elements_list.append(self.id)
@@ -59,6 +59,10 @@ class Route:
         elements_list.append(self.description)
         elements_list.append(self.type)
         return elements_list
+
+    def init_graph(self):
+        self.graph = LinkedStops.LinkedStops(self.id)
+        return self.graph.list_stops_of_graph_list
 
     @staticmethod
     def get_first_csv_line():
@@ -75,9 +79,9 @@ class Route:
 
     def add_trip_from_times(self, list_main_stops, list_times, service, path = "../gtfs/line.txt"):
 
-        graph = LinkedStops.LinkedStops()
-        complete_stop_list = graph.find_complete_stops_list(list_main_stops)
+        complete_stop_list = self.graph.find_complete_stops_list(list_main_stops)
 
         trip_id = len(self.trips)
 
         Trip.Trip.from_lists(trip_id, self.id, complete_stop_list, list_main_stops, list_times, service)
+

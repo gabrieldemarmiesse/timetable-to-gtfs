@@ -246,6 +246,8 @@ class Agency:
 
         return count_of_updates
 
+    def update_stops(self,li):
+
     @staticmethod
     def get_list_of_times_and_stop_name(line, sep_hours_minutes=':', empty_time='-', separator=None):
         # This function parse a line of the timetable, it returns
@@ -375,6 +377,10 @@ class Agency:
         if route1 is None:
             # Then we have to create the bus line (add a route to the agency)
             route1 = Route.Route.from_stops_list(route_name, list_stops_names)
+
+        # Here we initialise the graph, and we update all the stops found
+        list_stops_of_graph_list = route1.init_graph()
+        self.update_stops(list_stops_of_graph_list)
 
         count = 0
         for times in transposed:

@@ -49,12 +49,13 @@ class Trip:
         :return: A Trip object with the stop_times filled
         """
         stop_times = list()
-        for stop_sequence, stop in list_stops:
+        for stop_sequence, stop in enumerate(list_stops):
             arrival_time = ""
             # Here we check if there is a time associated to this stop
             for i, main_stop in enumerate(list_main_stops):
                 if stop == main_stop:
                     arrival_time = list_times[i]
+                    break
             stop_times.append(StopTime.StopTime(trip_id, stop, stop_sequence, arrival_time))
 
         return cls(trip_id, service_id, route_id, stop_times=stop_times)

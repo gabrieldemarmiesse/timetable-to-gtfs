@@ -16,10 +16,11 @@ We also add artificially false bus stops
 where the bus doesn't usually go
 (he will take the shortest path)"""
 
-    def __init__(self):
+    def __init__(self,route_id):
         self.dictionary = dict()
         self.line_id = "undefined"
-        self.create_from_file()
+        self.list_stops_of_graph_list = list()
+        self.create_from_file(route_id)
 
     def insert_node(self, main_node, *links_to_add):
         # The first argument is the node from where starts the links
@@ -40,14 +41,16 @@ where the bus doesn't usually go
         for node in links_to_add:
             self.insert_node(node)
 
-    def create_from_file(self, path="../../gtfs"):
-        stop_of_graph_list = self.read_file(path)
+    def create_from_file(self, route_id, path="../../sgtfs"):
+        self.list_stops_of_graph_list = self.read_file(path, route_id)
+
+
 
         previous_node = None
         node_before_separation = None
         end_of_branch_node =None
 
-        for current_node in stop_of_graph_list:
+        for current_node in self.list_stops_of_graph_list:
             if current_node.in_a_loop:
                 if previous_node.in_a_loop:
                     if current_node.link_up:
@@ -59,7 +62,7 @@ where the bus doesn't usually go
                     self.insert_node(previous_node.name,current_node.name)
                 print("we have to do something")
             else:
-                if previous_node.in_a_loop == False:
+                if not previous_node.in_a_loop:
                     if current_node.link_up:
                         self.insert_node(current_node.name, previous_node.name)
                     if previous_node.link_down:
@@ -70,12 +73,12 @@ where the bus doesn't usually go
 
                     # TODO
 
-    def read_file(self, path):
+    def read_file(self, path, route_id):
         """this method parse the file line.txt to create a
         list of StopOfGraph which is much easier to use to
         create a graph"""
 
-        path += "/line.txt"
+        path += "/line_" + route_id + ".txt"
         with open(path) as f:
             lines = f.readlines()
 
