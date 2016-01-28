@@ -5,7 +5,15 @@ from routes import Trip
 
 def reduct(list_main_stops, list_times):
     # This function delete the empty times and the stops corresponding
-    return list_main_stops, list_times
+    l = len(list_main_stops)
+    new_list_stops = list()
+    new_list_times = list()
+    for i, time in enumerate(list_times):
+        if time is not None:
+            new_list_stops.append(list_main_stops[i])
+            new_list_times.append(time)
+
+    return new_list_stops, new_list_times
 
 
 class Route:
