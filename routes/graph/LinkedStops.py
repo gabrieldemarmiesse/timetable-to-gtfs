@@ -83,19 +83,13 @@ where the bus doesn't usually go
             lines = f.readlines()
 
         stop_of_graph_list = list()
-        in_a_loop = False
 
         # So here we're examining the lines of the file
         for line in lines[1:]:
             line = line.strip()
 
-            # If we encounter a *, it means that we enter a loop or leave one
-            if line == '*':
-                in_a_loop = not in_a_loop
-            elif line == '':
-                continue
-            else:
-                stop_of_graph_list.append(StopOfGraph.StopOfGraph(line, in_a_loop))
+            if line != '':
+                stop_of_graph_list.append(StopOfGraph.StopOfGraph(line))
 
         # We mustn't forget to give our bus line a name
         self.line_id = lines[0]

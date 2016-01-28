@@ -3,9 +3,8 @@ class StopOfGraph:
     it will contain informations about the links that the stop should have
     it's just an object to parse a line of line.txt"""
 
-    def __init__(self, line, in_a_loop=False):
+    def __init__(self, line):
         self.name = "undefined name"
-        self.in_a_loop = in_a_loop
 
         # Tell if we have to put a link toward the previous stop in the file
         self.link_up = True
@@ -30,5 +29,5 @@ class StopOfGraph:
                 self.link_up = False
             elif splited_line[1] == '2':
                 self.link_down = False
-        except:
-            print("RAS")
+        except IndexError:
+            pass

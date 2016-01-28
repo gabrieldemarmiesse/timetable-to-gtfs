@@ -345,7 +345,7 @@ class Agency:
         else:
             print("line.txt is empty or does not exist")
 
-    def add_timetable(self, file_path="gtfs/timetable.txt"):
+    def add_timetable(self, file_path="sgtfs/timetable.txt"):
         # This function takes a timetable and convert it to a list of trips
 
         with open(file_path) as f:
