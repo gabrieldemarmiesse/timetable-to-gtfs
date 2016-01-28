@@ -3,6 +3,11 @@ from routes.graph import LinkedStops
 from routes import Trip
 
 
+def reduct(list_main_stops, list_times):
+    # This function delete the empty times and the stops corresponding
+    return list_main_stops, list_times
+
+
 class Route:
     # A route correspond to a bus line
 
@@ -79,9 +84,12 @@ class Route:
 
     def add_trip_from_times(self, list_main_stops, list_times, service, path = "../gtfs/line.txt"):
 
-        complete_stop_list = self.graph.find_complete_stops_list(list_main_stops)
+        # Here we must delete the stops where the time is None
+        list_main_stops_reducted, list_times_reducted = reduct(list_main_stops, list_times)
+
+        complete_stop_list = self.graph.find_complete_stops_list(list_main_stops_reducted)
 
         trip_id = len(self.trips)
 
-        Trip.Trip.from_lists(trip_id, self.id, complete_stop_list, list_main_stops, list_times, service)
+        Trip.Trip.from_lists(trip_id, self.id, complete_stop_list, list_main_stops_reducted, list_times_reducted, service)
 

@@ -246,7 +246,8 @@ class Agency:
 
         return count_of_updates
 
-    def update_stops(self,li):
+    def update_stops(self, li):
+        pass
 
     @staticmethod
     def get_list_of_times_and_stop_name(line, sep_hours_minutes=':', empty_time='-', separator=None):

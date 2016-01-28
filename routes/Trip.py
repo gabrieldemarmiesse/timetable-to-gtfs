@@ -56,7 +56,11 @@ class Trip:
                 if stop == main_stop:
                     arrival_time = list_times[i]
                     break
-            stop_times.append(StopTime.StopTime(trip_id, stop, stop_sequence, arrival_time))
+            stop_id2 = stop.replace(" ", "")
+            stop_id1 = stop.replace(".", "")
+            stop_id3 = stop.replace("'", "")
+            stop_id = stop.replace("-", "")
+            stop_times.append(StopTime.StopTime(trip_id, stop_id, stop_sequence, arrival_time))
 
         return cls(trip_id, service_id, route_id, stop_times=stop_times)
 
