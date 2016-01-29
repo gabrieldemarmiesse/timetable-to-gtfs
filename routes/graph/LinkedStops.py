@@ -41,37 +41,81 @@ where the bus doesn't usually go
         for node in links_to_add:
             self.insert_node(node)
 
+    def double_link(self,main_node, other_node):
+        self.insert_node(main_node, other_node)
+        self.insert_node(other_node, main_node)
+
     def create_from_file(self, route_id, path="../../sgtfs"):
         self.list_stops_of_graph_list = self.read_file(path, route_id)
 
-        previous_node = self.list_stops_of_graph_list[0]
+        previous_name = self.list_stops_of_graph_list[0].name
         node_before_star1 = None
         node_before_star2 = None
-        node_before_slash =None
+        node_before_slash1 =None
+        node_before_slash2 =None
+        node_before_double_slash1 =None
+        node_before_double_slash2 =None
         star_count = 0
+        slash_count = 0
+        double_slash_count = 0
 
         for i, current_node in enumerate(self.list_stops_of_graph_list[1:]):
             current_stop = current_node.name
             if current_stop == "*":
-                node_before_star1 = previous_node
                 node_before_star2 = node_before_star1
+                node_before_star1 = previous_name
                 star_count += 1
+
             elif current_stop == "/":
-                node_before_slash = previous_node
+                node_before_slash2 = node_before_slash1
+                node_before_slash1 = previous_name
+                slash_count += 1
+
+            elif current_stop == "//":
+                node_before_double_slash2 = node_before_double_slash1
+                node_before_double_slash1 = previous_name
+                double_slash_count += 1
+
             else:
-                if previous_node == "*":
+                if previous_name == "*":
                     if star_count % 2 == 0:
-                        self.insert_node(current_node,node_before_star1)
-                        self.insert_node(node_before_star1, current_node)
-                        self.insert_node(current_node,node_before_star2)
-                        self.insert_node(node_before_star2, current_node)
+                        self.double_link(current_stop,node_before_star1)
+                        self.double_link(current_stop,node_before_star2)
                     else:
-                        self.insert_node(current_node,node_before_star1)
-                        self.insert_node(node_before_star1, current_node)
-                elif  previous_node == "/":
-                    pass
+                        self.double_link(current_stop,node_before_star1)
+
+                elif  previous_name == "/":
+                    if slash_count % 3 == 1:
+                        self.double_link(current_stop, node_before_slash1)
+                    elif slash_count % 3 == 2:
+                        self.double_link(current_stop, node_before_slash2)
+                    else :
+                        self.double_link(current_stop, node_before_slash1)
+                        self.double_link(current_stop, node_before_slash2)
+
+                elif  previous_name == "//":
+                    if double_slash_count % 3 == 1:
+                        self.double_link(current_stop, node_before_double_slash1)
+                    elif double_slash_count % 3 == 2:
+                        self.double_link(current_stop, node_before_double_slash2)
+                    else :
+                        self.double_link(current_stop, node_before_double_slash1)
+                        self.double_link(current_stop, node_before_double_slash2)
+
                 else:
-            previous_node = current_node.name
+                    if current_node.link_up:
+                        j=i - 1
+                        while self.list_stops_of_graph_list[j].link_up is False:
+                            j-=1
+                        self.insert_node(current_stop, self.list_stops_of_graph_list[j])
+
+                    if current_node.link_down:
+                        j=i - 1
+                        while self.list_stops_of_graph_list[j].link_down is False:
+                            j-=1
+                        self.insert_node( self.list_stops_of_graph_list[j], current_stop)
+
+            previous_name = current_node.name
 
     def read_file(self, path, route_id):
         """this method parse the file line.txt to create a

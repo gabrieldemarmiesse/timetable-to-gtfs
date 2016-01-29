@@ -249,18 +249,20 @@ class Agency:
     def update_stops(self, li):
         # First add the stops
         for stop in li:
-            found = False
-            stop_id2 = stop.name.replace(" ", "")
-            stop_id1 = stop_id2.replace(".", "")
-            stop_id3 = stop_id1.replace("'", "")
-            stop_id = stop_id3.replace("-", "")
-            stop_id_again = stop_id.lower()
-            for stop_in_memory in self.stops:
-                if stop_in_memory.id == stop_id_again:
-                    found = True
-                    break
-            if not found:
-                self.stops.append(Stop.Stop(stop.name, stop_id_again))
+            char = stop.name[0]
+            if char!="*" and char!="/" and char != "$":
+                found = False
+                stop_id2 = stop.name.replace(" ", "")
+                stop_id1 = stop_id2.replace(".", "")
+                stop_id3 = stop_id1.replace("'", "")
+                stop_id = stop_id3.replace("-", "")
+                stop_id_again = stop_id.lower()
+                for stop_in_memory in self.stops:
+                    if stop_in_memory.id == stop_id_again:
+                        found = True
+                        break
+                if not found:
+                    self.stops.append(Stop.Stop(stop.name, stop_id_again))
 
         # Then delete the file
         os.remove("sgtfs/coordinates.txt")
