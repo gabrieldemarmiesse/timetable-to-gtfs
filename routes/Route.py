@@ -64,6 +64,9 @@ class Route:
         self.description = line[3]
         self.type = line[4]
 
+    def get_first_line_csv(self):
+        return "route_id,route_short_name,route_long_name,route_desc,route_type"
+
     def to_list(self):
         elements_list = list()
         elements_list.append(self.id)
@@ -101,5 +104,6 @@ class Route:
 
         trip_id = len(self.trips)
 
-        Trip.Trip.from_lists(trip_id, self.id, complete_stop_list_without_false_stops, list_main_stops_reducted, list_times_reducted, service)
+        trip = Trip.Trip.from_lists(trip_id, self.id, complete_stop_list_without_false_stops, list_main_stops_reducted, list_times_reducted, service)
 
+        self.trips.append(trip)

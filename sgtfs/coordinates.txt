@@ -1,1 +1,49 @@
-AMPHORESEglise Ste-Jeanne d’ArcTrianonPont DulysSquare DulysJardin PaulineEstérelSt-HonoratRuban BleuPin DoréPrintempsLYC. AUDIBERTIBalzacDames BlanchesWilsonDUGOMMIERBriandDiables BleusPÔLE D’ÉCHANGES ANTIBESStade NautiqueOliviersAnthalaAv. de la SarrazineVallon VertLogis St-ClaudeNova AntipolisCHAPELLE DES COMBESC. CommercialStade des 3 MoulinsAteliersMunicipauxCistesFOYER LE ROCLycée L. De VinciRd-Pt des ChappesTEMPLIERSINRIAA. CaquotBeluguesS. LafitteSKEMABeethovenBouillidesEGANAUDEBruscsG. PompidouGarbejaïreCardoulinesGR. VALBONNE SOPHIA ANTIPOLIS
+AMPHORES
+Eglise Ste-Jeanne d’Arc
+Trianon
+Pont Dulys
+Square Dulys
+Jardin Pauline
+Estérel
+St-Honorat
+Ruban Bleu
+Pin Doré
+Printemps
+LYC. AUDIBERTI
+Balzac
+Dames Blanches
+Wilson
+DUGOMMIER
+Briand
+Diables Bleus
+PÔLE D’ÉCHANGES ANTIBES
+Stade Nautique
+Oliviers
+Anthala
+Av. de la Sarrazine
+Vallon Vert
+Logis St-Claude
+Nova Antipolis
+CHAPELLE DES COMBES
+C. Commercial
+Stade des 3 Moulins
+Ateliers
+Municipaux
+Cistes
+FOYER LE ROC
+Lycée L. De Vinci
+Rd-Pt des Chappes
+TEMPLIERS
+INRIA
+A. Caquot
+Belugues
+S. Lafitte
+SKEMA
+Beethoven
+Bouillides
+EGANAUDE
+Bruscs
+G. Pompidou
+Garbejaïre
+Cardoulines
+GR. VALBONNE SOPHIA ANTIPOLIS	43.624298, 7.037261

@@ -144,8 +144,6 @@ where the bus doesn't usually go
         return stop_of_graph_list
 
     def find_shortest_path(self, start, end, path=None):
-        if end in self.dictionary[start]:
-            return [start, end]
         if path is None:
             path = []
         path = path + [start]

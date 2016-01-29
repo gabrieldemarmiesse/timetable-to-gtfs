@@ -276,7 +276,7 @@ class Agency:
         with open("sgtfs/coordinates.txt", "w") as f:
             for stop in self.stops:
                 if stop.latitude == "":
-                    f.write(stop.name)
+                    f.write(stop.name + "\n")
 
     @staticmethod
     def get_list_of_times_and_stop_name(line, sep_hours_minutes=':', empty_time='-', separator=None):
@@ -358,8 +358,13 @@ class Agency:
     def add_timetable(self, file_path="sgtfs/timetable.txt"):
         # This function takes a timetable and convert it to a list of trips
 
-        with open(file_path) as f:
-            lines = f.readlines()
+        try:
+            with open(file_path) as f:
+                lines = f.readlines()
+        except FileNotFoundError:
+            print("No timetable file")
+            return None
+
         for line in lines:
             line.strip()
 
@@ -368,7 +373,7 @@ class Agency:
         first_line = first_line.split('\t')
         first_line_splitted = [x for x in first_line if x != '']
         route_name = first_line_splitted[0]
-        trips_service = first_line_splitted[1]
+        trips_service = first_line_splitted[1].strip()
         try:
             empty_time = first_line_splitted[2]
         except IndexError:
@@ -410,6 +415,7 @@ class Agency:
         if route1 is None:
             # Then we have to create the bus line (add a route to the agency)
             route1 = Route.Route.from_stops_list(route_name, list_stops_names)
+            self.routes.append(route1)
 
         # Here we initialise the graph, and we update all the stops found
         list_stops_of_graph_list = route1.init_graph()
@@ -440,7 +446,7 @@ class Agency:
         for route in list_of_routes:
             sorted_list_of_trips = sorted(route.trips)
             list_of_trips += sorted_list_of_trips
-        Other.export_in_csv(list_of_routes, "trips.txt")
+        Other.export_in_csv(list_of_trips, "trips.txt")
 
         list_of_stops_times = list()
         for trip in list_of_trips:

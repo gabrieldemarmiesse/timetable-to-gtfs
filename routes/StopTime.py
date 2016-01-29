@@ -34,8 +34,9 @@ class StopTime:
         elements_list.append(self.stop_sequence)
         elements_list.append(self.pickup_type)
         elements_list.append(self.drop_off_type)
+        return elements_list
 
     @staticmethod
-    def get_first_csv_line(self):
+    def get_first_line_csv():
         return "trip_id,arrival_time,departure_time,stop_id,stop_sequence,pickup_type,drop_off_type\n"
 

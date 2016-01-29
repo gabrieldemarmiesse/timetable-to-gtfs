@@ -16,12 +16,15 @@ class Trip:
         else:
             self.stop_times = stop_times
 
-    def __lt__(self,other):
+    def __lt__(self, other):
 
         dictionary = Calendar.Calendar.get_dictionary()
 
         if self.service_id == other.service_id:
-            return self.stop_times[0].arrival_time < other.stop_times[0].arrival_time
+
+            self1 = int(self.stop_times[0].arrival_time.split(":")[0])*60 + int(self.stop_times[0].arrival_time.split(":")[1])
+            other1 = int(other.stop_times[0].arrival_time.split(":")[0])*60 + int(other.stop_times[0].arrival_time.split(":")[1])
+            return self1 < other1
         else:
             return dictionary[self.service_id] < dictionary[other.service_id]
 
@@ -63,6 +66,12 @@ class Trip:
             stop_times.append(StopTime.StopTime(trip_id, stop_id.lower(), stop_sequence, arrival_time))
 
         return cls(trip_id, service_id, route_id, stop_times=stop_times)
+
+    def to_list(self):
+        return [self.route_id, self.service_id, self.trip_id,self.headsign, self.block_id]
+
+    def get_first_line_csv(self):
+        return "route_id,service_id,trip_id,trip_headsign,block_id"
 
     # Initialize the stop times from a given path(gtfs by default)
     def init_stop_times(self, path="gtfs"):
