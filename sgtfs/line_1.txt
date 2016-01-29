@@ -1,0 +1,71 @@
+1
+AMPHORES
+Eglise Ste-Jeanne d’Arc
+Trianon
+Pont Dulys
+Square Dulys
+Jardin Pauline
+Estérel		1
+St-Honorat	2
+Ruban Bleu
+Pin Doré
+Printemps
+LYC. AUDIBERTI
+Balzac
+Dames Blanches
+Wilson
+DUGOMMIER	1
+Briand		2
+Diables Bleus	2
+PÔLE D’ÉCHANGES ANTIBES
+Stade Nautique
+Oliviers
+Anthala
+Av. de la Sarrazine	1
+Vallon Vert
+Logis St-Claude
+Nova Antipolis
+CHAPELLE DES COMBES
+C. Commercial
+*
+Stade des 3 Moulins
+Ateliers
+Municipaux
+Cistes
+FOYER LE ROC	1
+Lycée L. De Vinci
+Stade des 3 Moulins
+*
+Rd-Pt des Chappes
+TEMPLIERS
+INRIA
+A. Caquot
+*
+Belugues
+S. Lafitte
+SKEMA		1
+Beethoven
+Belugues
+*
+Bouillides
+EGANAUDE
+Bruscs
+G. Pompidou
+Garbejaïre
+Cardoulines
+GR. VALBONNE SOPHIA ANTIPOLIS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -26,7 +26,7 @@ def list_to_csv(list_of_elements):
 
     line = ""
     for element in list_of_elements:
-        csv_element = ",\"" + element + "\""
+        csv_element = ",\"" + str(element) + "\""
         line += csv_element
 
     line += "\n"
@@ -40,7 +40,10 @@ def export_in_csv(objects_list, filename):
     if len(objects_list) > 0:
         first_line = objects_list[0].get_first_line_csv()
         path = "gtfs/" + filename
-        os.remove(path)
+        try:
+            os.remove(path)
+        except FileNotFoundError:
+            pass
         file = open(path, 'w')
         file.write(first_line + "\n")
         for my_object in objects_list:

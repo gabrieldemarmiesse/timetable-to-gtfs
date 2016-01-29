@@ -1,2 +1,2 @@
-agency_id,agency_name,agency_url,agency_timezone,agency_phone,agency_lang,agency_fare_url
-"1","STAR","http://www.star.fr","Europe/Paris","0970821800","FR","http://www.star.fr/fr/boutique-en-ligne.html"
+agency_id, agency_name,agency_url,agency_timezone,agency_phone,agency_lang
+"envibus","Envibus","http://www.envibus.fr/","Europe/Paris","+33 (0)4 89 87 72 00","fr"

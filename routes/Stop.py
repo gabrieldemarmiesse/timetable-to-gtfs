@@ -34,5 +34,5 @@ class Stop:
 
 
     @staticmethod
-    def get_first_csv_line():
-        return "stop_id,stop_name,stop_desc,stop_lat,stop_lon,stop_url,location_type,parent_station\n"
+    def get_first_line_csv():
+        return "stop_id,stop_name,stop_desc,stop_lat,stop_lon,stop_url,location_type,parent_station"

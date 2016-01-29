@@ -45,16 +45,16 @@ where the bus doesn't usually go
         self.insert_node(main_node, other_node)
         self.insert_node(other_node, main_node)
 
-    def create_from_file(self, route_id, path="../../sgtfs"):
+    def create_from_file(self, route_id, path="sgtfs"):
         self.list_stops_of_graph_list = self.read_file(path, route_id)
 
         previous_name = self.list_stops_of_graph_list[0].name
         node_before_star1 = None
         node_before_star2 = None
-        node_before_slash1 =None
-        node_before_slash2 =None
-        node_before_double_slash1 =None
-        node_before_double_slash2 =None
+        node_before_slash1 = None
+        node_before_slash2 = None
+        node_before_double_slash1 = None
+        node_before_double_slash2 = None
         star_count = 0
         slash_count = 0
         double_slash_count = 0
@@ -79,10 +79,10 @@ where the bus doesn't usually go
             else:
                 if previous_name == "*":
                     if star_count % 2 == 0:
-                        self.double_link(current_stop,node_before_star1)
-                        self.double_link(current_stop,node_before_star2)
+                        self.double_link(current_stop, node_before_star1)
+                        self.double_link(current_stop, node_before_star2)
                     else:
-                        self.double_link(current_stop,node_before_star1)
+                        self.double_link(current_stop, node_before_star1)
 
                 elif  previous_name == "/":
                     if slash_count % 3 == 1:
@@ -104,18 +104,22 @@ where the bus doesn't usually go
 
                 else:
                     if current_node.link_up:
-                        j=i - 1
+                        j = i
                         while self.list_stops_of_graph_list[j].link_up is False:
-                            j-=1
-                        self.insert_node(current_stop, self.list_stops_of_graph_list[j])
+                            j -= 1
+                        self.insert_node(current_stop, self.list_stops_of_graph_list[j].name)
 
                     if current_node.link_down:
-                        j=i - 1
+                        j = i
                         while self.list_stops_of_graph_list[j].link_down is False:
-                            j-=1
-                        self.insert_node( self.list_stops_of_graph_list[j], current_stop)
+                            j -= 1
+                        self.insert_node(self.list_stops_of_graph_list[j].name, current_stop)
 
             previous_name = current_node.name
+
+    def check_stops(self,list_stops):
+        for stop in list_stops:
+            a = self.dictionary[stop]
 
     def read_file(self, path, route_id):
         """this method parse the file line.txt to create a
@@ -140,6 +144,8 @@ where the bus doesn't usually go
         return stop_of_graph_list
 
     def find_shortest_path(self, start, end, path=None):
+        if end in self.dictionary[start]:
+            return [start, end]
         if path is None:
             path = []
         path = path + [start]
@@ -156,7 +162,7 @@ where the bus doesn't usually go
                         shortest = new_path
         return shortest
 
-    def find_complete_stops_list(self, list):
+    def find_complete_stops_list(self, list_main_stops):
         """this function finds the complete list of stops
         based on the list of the main stops the bus is doing through"""
 
@@ -164,20 +170,21 @@ where the bus doesn't usually go
         # list_of_list contains the little stops which are not in the timetable
 
         list_of_lists = list()
-        previous_stop = list[0]
-        for current_stop in list[1:]:
-            missing_stops = self.find_shortest_path(previous_stop,current_stop)
+        previous_stop = list_main_stops[0]
+        for current_stop in list_main_stops[1:]:
+            missing_stops = self.find_shortest_path(previous_stop, current_stop)
             missing_stops.pop(0)
             missing_stops.pop()
-            list_of_lists.happend(missing_stops)
+            list_of_lists.append(missing_stops)
+            previous_stop = current_stop
 
         # Now we fuses everything, the main stops and the little stops
-        complete_stops_list = [list[0],]
-        for i, current_main_stop in enumerate(list[1:]):
+        complete_stops_list = [list_main_stops[0], ]
+        for i, current_main_stop in enumerate(list_main_stops[1:]):
             complete_stops_list += list_of_lists[i]
-            complete_stops_list.happend(current_main_stop)
+            complete_stops_list.append(current_main_stop)
 
-
+        return complete_stops_list
 
 # Tests
 #a = LinkedStops()

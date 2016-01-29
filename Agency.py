@@ -101,6 +101,8 @@ class Agency:
         # Here we do the initialization from the files
         self.init_from_file(folder_name)
 
+    def get_first_line_csv(self):
+        return "agency_id, agency_name,agency_url,agency_timezone,agency_phone,agency_lang"
     # Initialize here the agency and ask user for information if
     # There is something missing
     def init_from_file(self, path="gtfs"):
@@ -250,7 +252,7 @@ class Agency:
         # First add the stops
         for stop in li:
             char = stop.name[0]
-            if char!="*" and char!="/" and char != "$":
+            if char != "*" and char != "/" and char != "$":
                 found = False
                 stop_id2 = stop.name.replace(" ", "")
                 stop_id1 = stop_id2.replace(".", "")
@@ -265,7 +267,10 @@ class Agency:
                     self.stops.append(Stop.Stop(stop.name, stop_id_again))
 
         # Then delete the file
-        os.remove("sgtfs/coordinates.txt")
+        try:
+            os.remove("sgtfs/coordinates.txt")
+        except FileNotFoundError:
+            pass
 
         # Then print stops which don't have coordinates
         with open("sgtfs/coordinates.txt", "w") as f:
@@ -317,8 +322,11 @@ class Agency:
 
         # This is a list of triplet
         list_of_coordinates = read_coordinates()
-        number_of_updated_stops = self.find_and_update(list_of_coordinates)
-        print("we've updated " + number_of_updated_stops + "stop coordinates")
+        if list_of_coordinates is None:
+            number_of_updated_stops = 0
+        else:
+            number_of_updated_stops = self.find_and_update(list_of_coordinates)
+        print("we've updated " + str(number_of_updated_stops) + "stop coordinates")
 
     def update_line(self):
         # Find updates in the lines
@@ -331,7 +339,7 @@ class Agency:
             old_line = read_line_sgtfs(name_file)
 
             # We check if the line file already existed or not
-            if len(old_line) == 0:
+            if len(old_line) == 1 and old_line[0] == "":
                 print("Creating the file " + name_file)
                 create_line_file(name_file)
                 print("updating the line file now:")
@@ -406,6 +414,9 @@ class Agency:
         # Here we initialise the graph, and we update all the stops found
         list_stops_of_graph_list = route1.init_graph()
         self.update_stops(list_stops_of_graph_list)
+
+        # Here we check that the stops of the timetable correspond to the stops of the graph
+        route1.graph.check_stops(list_stops_names)
 
         count = 0
         for times in transposed:

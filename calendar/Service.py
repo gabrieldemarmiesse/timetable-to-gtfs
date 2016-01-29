@@ -15,6 +15,6 @@ class Service:
         return list1
 
     @staticmethod
-    def get_first_csv_line():
+    def get_first_line_csv():
         return "service_id,monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date\n"
 
