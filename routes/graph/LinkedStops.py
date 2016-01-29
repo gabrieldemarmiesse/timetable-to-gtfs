@@ -59,15 +59,19 @@ where the bus doesn't usually go
             elif current_stop == "/":
                 node_before_slash = previous_node
             else:
-                if previous_node.name == "*":
+                if previous_node == "*":
                     if star_count % 2 == 0:
-                        pass
+                        self.insert_node(current_node,node_before_star1)
+                        self.insert_node(node_before_star1, current_node)
+                        self.insert_node(current_node,node_before_star2)
+                        self.insert_node(node_before_star2, current_node)
                     else:
-                        pass
-                elif  previous_node.name == "/":
+                        self.insert_node(current_node,node_before_star1)
+                        self.insert_node(node_before_star1, current_node)
+                elif  previous_node == "/":
                     pass
                 else:
-            previous_node = current_node
+            previous_node = current_node.name
 
     def read_file(self, path, route_id):
         """this method parse the file line.txt to create a

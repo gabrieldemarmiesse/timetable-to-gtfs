@@ -97,7 +97,9 @@ class Route:
 
         complete_stop_list = self.graph.find_complete_stops_list(list_main_stops_reducted)
 
+        complete_stop_list_without_false_stops = [x for x in complete_stop_list if x != "f"]
+
         trip_id = len(self.trips)
 
-        Trip.Trip.from_lists(trip_id, self.id, complete_stop_list, list_main_stops_reducted, list_times_reducted, service)
+        Trip.Trip.from_lists(trip_id, self.id, complete_stop_list_without_false_stops, list_main_stops_reducted, list_times_reducted, service)
 
