@@ -1,0 +1,49 @@
+22
+BEL AIR
+Bois de Valbonne
+Macarons		1
+LYCÉE VSA HAUT		1
+LYCÉE VSA BAS		2
+Cigales
+Stade Léon Chabert	1
+Véronière
+Pierrefeu
+Bruisses		1
+Oréades
+VALBONNE VILLAGE
+Hôtel de Ville
+Pont de la Brague
+Hauts de Valbonne
+Val de Cuberte
+Carrière
+Font de Cuberte		1
+Fauvettes
+Petite Ferme
+Peyniblou
+VAL MARTIN
+Place Bermond		1
+Genêts			2
+GR. VALBONNE SOPHIA ANTIPOLIS
+/
+$1
+Bruguets
+ATMAN
+$2
+$3
+/
+Cardoulines
+Garbejaïre
+G. Pompidou
+/
+Bruscs
+EGANAUDE
+Bouillide
+A. Caquot
+INRIA
+TEMPLIERS
+Rd-Pt des Chappes
+Stade des 3 Moulins
+Ateliers Municipaux	1
+Cistes			1
+Lycée L. de Vinci	2
+FOYER LE ROC

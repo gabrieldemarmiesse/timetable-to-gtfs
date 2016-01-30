@@ -234,8 +234,9 @@ class Agency:
     def find_and_update(self, list_of_coordinates):
 
         count_of_updates = 0
-        index = 0
+
         for coordinates in list_of_coordinates:
+            index = 0
             while coordinates[0].lower() != self.stops[index].name.lower():
                 index += 1
 

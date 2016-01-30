@@ -1,6 +1,7 @@
 import csv
 import os
 
+
 def read_csv(path, func):
     """
     This method execute a function for each line of a file (except the first one)
@@ -53,6 +54,7 @@ def export_in_csv(objects_list, filename):
     else:
         print("The list of objects was empty")
 
+
 def to_real_time(string):
     # Convert 6:34 in 06:34:00
     if len(string) == 8 or len(string) == 0:
@@ -61,3 +63,11 @@ def to_real_time(string):
         return string + ":00"
     elif len(string) == 4:
         return "0" + string + ":00"
+
+
+def to_id(string):
+    stop_id2 = string.replace(" ", "")
+    stop_id1 = stop_id2.replace(".", "")
+    stop_id3 = stop_id1.replace("'", "")
+    stop_id = stop_id3.replace("-", "")
+    return stop_id.lower()
