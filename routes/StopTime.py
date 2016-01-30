@@ -1,3 +1,4 @@
+import Other
 class StopTime:
     def __init__(self, trip_id,  stop_id, stop_sequence, arrival_time="",
                  pickup_type="", drop_off_type="", departure_time=None):
@@ -25,8 +26,8 @@ class StopTime:
     def to_list(self):
         elements_list = list()
         elements_list.append(self.trip_id)
-        elements_list.append(self.arrival_time)
-        elements_list.append(self.departure_time)
+        elements_list.append(Other.to_real_time(self.arrival_time))
+        elements_list.append(Other.to_real_time(self.departure_time))
         elements_list.append(self.stop_id)
         elements_list.append(self.stop_sequence)
         elements_list.append(self.pickup_type)

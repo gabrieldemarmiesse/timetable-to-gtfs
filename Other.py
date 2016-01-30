@@ -52,3 +52,12 @@ def export_in_csv(objects_list, filename):
         print("finished exporting " + filename)
     else:
         print("The list of objects was empty")
+
+def to_real_time(string):
+    # Convert 6:34 in 06:34:00
+    if len(string) == 8 or len(string) == 0:
+        return string
+    elif len(string) == 5:
+        return string + ":00"
+    elif len(string) == 4:
+        return "0" + string + ":00"

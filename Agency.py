@@ -241,8 +241,8 @@ class Agency:
 
             # Here we compare the coordinates to know if they need to be updated
             # It's just for counting reasons
-            if self.stops[index].latitude == coordinates[1]:
-                if self.stops[index].longitude == coordinates[2]:
+            if self.stops[index].latitude != coordinates[1]:
+                if self.stops[index].longitude != coordinates[2]:
                     count_of_updates += 1
 
             self.stops[index].latitude = coordinates[1]
@@ -335,7 +335,7 @@ class Agency:
         print("updates line_something.txt")
         new_line = read_line_sgtfs("line.txt")
 
-        if len(new_line) > 0:
+        if len(new_line) > 1:
             line_name = get_name(new_line)
             name_file = "line_" + line_name + ".txt"
             old_line = read_line_sgtfs(name_file)
