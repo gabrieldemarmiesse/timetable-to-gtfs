@@ -102,7 +102,7 @@ class Route:
 
         complete_stop_list_without_false_stops = [x for x in complete_stop_list if x[0] != "$"]
 
-        trip_id = len(self.trips)
+        trip_id = self.id + "-" + str(len(self.trips))
 
         trip = Trip.Trip.from_lists(trip_id, self.id, complete_stop_list_without_false_stops, list_main_stops_reducted, list_times_reducted, service)
 

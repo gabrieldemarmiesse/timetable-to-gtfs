@@ -1,6 +1,3 @@
-import Other
-
-
 class StopTime:
     def __init__(self, trip_id,  stop_id, stop_sequence, arrival_time="",
                  pickup_type="", drop_off_type="", departure_time=None):
@@ -38,5 +35,5 @@ class StopTime:
 
     @staticmethod
     def get_first_line_csv():
-        return "trip_id,arrival_time,departure_time,stop_id,stop_sequence,pickup_type,drop_off_type\n"
+        return "trip_id,arrival_time,departure_time,stop_id,stop_sequence,pickup_type,drop_off_type"
 
