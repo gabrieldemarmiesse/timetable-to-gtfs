@@ -89,7 +89,6 @@ class Route:
         Other.read_csv(path, self.add_trip)
 
     def add_trip(self, line):
-        print("trip" + line[2])
         trip = Trip.Trip.from_csv(line)
         self.trips.append(trip)
 

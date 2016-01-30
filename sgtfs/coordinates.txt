@@ -1,49 +1,48 @@
-AMPHORES
-Eglise Ste-Jeanne d’Arc
-Trianon
-Pont Dulys
-Square Dulys
-Jardin Pauline
-Estérel
-St-Honorat
-Ruban Bleu
-Pin Doré
-Printemps
-LYC. AUDIBERTI
-Balzac
-Dames Blanches
-Wilson
-DUGOMMIER
-Briand
-Diables Bleus
-PÔLE D’ÉCHANGES ANTIBES
-Stade Nautique
-Oliviers
-Anthala
-Av. de la Sarrazine
-Vallon Vert
-Logis St-Claude
-Nova Antipolis
-CHAPELLE DES COMBES
-C. Commercial
-Stade des 3 Moulins
-Ateliers
-Municipaux
-Cistes
-FOYER LE ROC
-Lycée L. De Vinci
-Rd-Pt des Chappes
-TEMPLIERS
-INRIA
 A. Caquot
-Belugues
-S. Lafitte
-SKEMA
+AMPHORES
+Anthala
+Ateliers
+Av. de la Sarrazine
+Balzac
 Beethoven
+Belugues
 Bouillides
-EGANAUDE
+Briand
 Bruscs
-G. Pompidou
-Garbejaïre
 Cardoulines
-GR. VALBONNE SOPHIA ANTIPOLIS
+C. Commercial
+CHAPELLE DES COMBES
+Cistes
+Dames Blanches
+Diables Bleus
+DUGOMMIER
+EGANAUDE
+Eglise Ste-Jeanne d’Arc
+Estérel
+FOYER LE ROC
+Garbejaïre
+G. Pompidou
+INRIA
+Jardin Pauline
+Logis St-Claude
+LYC. AUDIBERTI
+Lycée L. De Vinci
+Municipaux
+Nova Antipolis
+Oliviers
+Pin Doré
+Pont Dulys
+Printemps
+PÔLE D’ÉCHANGES ANTIBES
+Rd-Pt des Chappes
+Ruban Bleu
+SKEMA
+S. Lafitte
+Square Dulys
+Stade des 3 Moulins
+Stade Nautique
+St-Honorat
+TEMPLIERS
+Trianon
+Vallon Vert
+Wilson

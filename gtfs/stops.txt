@@ -23,7 +23,7 @@ stop_id,stop_name,stop_desc,stop_lat,stop_lon,stop_url,location_type,parent_stat
 "foyerleroc","FOYER LE ROC","","","","","",""
 "garbejaïre","Garbejaïre","","","","","",""
 "gpompidou","G. Pompidou","","","","","",""
-"grvalbonnesophiaantipolis","GR. VALBONNE SOPHIA ANTIPOLIS","","","","","",""
+"grvalbonnesophiaantipolis","GR. VALBONNE SOPHIA ANTIPOLIS","","43.624323","7.037237","","",""
 "inria","INRIA","","","","","",""
 "jardinpauline","Jardin Pauline","","","","","",""
 "logisstclaude","Logis St-Claude","","","","","",""

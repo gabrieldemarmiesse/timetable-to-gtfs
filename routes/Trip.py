@@ -22,8 +22,12 @@ class Trip:
 
         if self.service_id == other.service_id:
 
-            self1 = int(self.stop_times[0].arrival_time.split(":")[0])*60 + int(self.stop_times[0].arrival_time.split(":")[1])
-            other1 = int(other.stop_times[0].arrival_time.split(":")[0])*60 + int(other.stop_times[0].arrival_time.split(":")[1])
+            try:
+                self1 = int(self.stop_times[0].arrival_time.split(":")[0])*60 + int(self.stop_times[0].arrival_time.split(":")[1])
+                other1 = int(other.stop_times[0].arrival_time.split(":")[0])*60 + int(other.stop_times[0].arrival_time.split(":")[1])
+            except:
+                print(self.stop_times[0].arrival_time)
+                print(other.stop_times[0].arrival_time)
             return self1 < other1
         else:
             return dictionary[self.service_id] < dictionary[other.service_id]

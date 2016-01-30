@@ -11,30 +11,29 @@ import re
 def read_coordinates():
     try:
         with open("sgtfs/coordinates.txt", 'r') as file:
-            lines = file.readline()
+            lines = file.readlines()
 
-            stop_counter = 0
-            coordinates_counter = 0
+        stop_counter = 0
+        coordinates_counter = 0
 
-            list_of_coordinates = list()
-            for line in lines:
-                stop_counter += 1
+        list_of_coordinates = list()
+        for line in lines:
+            stop_counter += 1
 
-                # Here we parse the line
-                line.strip("\t \n")
-                stop = line.split("\t")
-                parsed_line = [x for x in stop if x != '']
+            # Here we parse the line
+            stop = line.strip("\t \n").split("\t")
+            parsed_line = [x for x in stop if x != '']
 
-                # We add it to the list if it contains coordinates
-                if len(parsed_line) > 1:
+            # We add it to the list if it contains coordinates
+            if len(parsed_line) > 1:
 
-                    # Parsing the coordinates
-                    coordinates = parsed_line[1].split(",")
-                    coordinates[0].strip()
-                    coordinates[1].strip()
+                # Parsing the coordinates
+                coordinates = parsed_line[1].split(",")
+                coo0 = coordinates[0].strip()
+                coo1 = coordinates[1].strip()
 
-                    list_of_coordinates.append([parsed_line,coordinates[0],coordinates[1]])
-                    coordinates_counter += 1
+                list_of_coordinates.append([parsed_line[0], coo0, coo1])
+                coordinates_counter += 1
 
         print(str(stop_counter) + " stops were in the file")
         print(str(coordinates_counter) + " coordinates were in the file")
@@ -205,6 +204,7 @@ class Agency:
         except:
             print("The file " + path + " was not found")
         print(str(self.count) + " trips were imported")
+        self.count = 0
 
     def init_times_stops_from_file(self, folder_name="gtfs"):
         path = folder_name + "/stop_times.txt"
@@ -216,7 +216,9 @@ class Agency:
                 for i, row in enumerate(spam_reader):
                     if i == 0:
                         continue
-                    while row[0] != self.routes[route_index].trips[trip_index]:
+
+                    # We try to find the trip which have this trip Id
+                    while row[0] != self.routes[route_index].trips[trip_index].trip_id:
                         trip_index += 1
 
                         if trip_index == len(self.routes[route_index].trips):
@@ -225,7 +227,7 @@ class Agency:
 
                     self.routes[route_index].trips[trip_index].add_stop_time(row)
                     self.count += 1
-        except:
+        except FileNotFoundError:
             print("The file " + path + " do not exist")
         print(str(self.count) + " times stops were imported")
 
@@ -456,17 +458,17 @@ class Agency:
     @staticmethod
     def update():
         agency = Agency.add_gtfs()
-        print("\nImportation finished\n")
+        print("\n ****** Importation finished ****** \n")
 
         agency.update_coordinates()
-        print("\nupdate of coordinates finished\n")
+        print("\n ****** update of coordinates finished ****** \n")
 
         agency.update_line()
-        print("\nUpdate of line finished")
+        print("\n ****** Update of line finished ****** ")
 
         agency.add_timetable()
-        print("\nUpdate of times stops finished\n")
+        print("\n ****** Update of times stops finished ****** \n")
 
         agency.print()
 
-        print("All done")
+        print(" ****** All done ****** ")
