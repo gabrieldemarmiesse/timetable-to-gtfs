@@ -1,6 +1,6 @@
 import csv
 import os
-
+import re
 
 def read_csv(path, func):
     """
@@ -65,9 +65,20 @@ def to_real_time(string):
         return "0" + string + ":00"
 
 
+# This function create an id for the stop from it's file name.
 def to_id(string):
     stop_id2 = string.replace(" ", "")
     stop_id1 = stop_id2.replace(".", "")
     stop_id3 = stop_id1.replace("'", "")
     stop_id = stop_id3.replace("-", "")
     return stop_id.lower()
+
+
+# This function parse a line containing element separated by multiple tabs
+def split_by_tab(string):
+    string1 = string.replace("\n", "")
+    return re.split(' *\\t+ *', string1)
+
+
+def count_iterable(i):
+    return sum(1 for e in i)

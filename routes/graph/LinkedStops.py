@@ -117,7 +117,7 @@ where the bus doesn't usually go
 
             previous_name = current_node.name
 
-    def check_stops(self,list_stops):
+    def check_stops(self, list_stops):
         for stop in list_stops:
             a = self.dictionary[stop]
 

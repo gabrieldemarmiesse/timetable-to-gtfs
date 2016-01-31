@@ -1,3 +1,6 @@
+import Other
+
+
 class StopOfGraph:
     """this class is here to convert the lines of the file descibing the line shape.
     it will contain informations about the links that the stop should have
@@ -16,8 +19,7 @@ class StopOfGraph:
     def init_from_line(self, line):
         # Initialise values from the line
 
-        splited_line = line.split('\t')
-        splited_line = [x for x in splited_line if x != '']
+        splited_line = Other.split_by_tab(line)
 
         # We get the name
         self.name = splited_line[0]

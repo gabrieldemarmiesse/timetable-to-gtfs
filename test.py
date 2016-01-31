@@ -1,3 +1,4 @@
-import Agency
+import Other
 
-Agency.Agency.update()
+a = Other.split_by_tab("blablablablabla")
+print(a)

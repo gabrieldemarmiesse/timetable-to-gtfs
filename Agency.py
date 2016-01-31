@@ -21,18 +21,15 @@ def read_coordinates():
             stop_counter += 1
 
             # Here we parse the line
-            stop = line.strip("\t \n").split("\t")
-            parsed_line = [x for x in stop if x != '']
+            parsed_line = Other.split_by_tab(line)
 
             # We add it to the list if it contains coordinates
             if len(parsed_line) > 1:
 
                 # Parsing the coordinates
-                coordinates = parsed_line[1].split(",")
-                coo0 = coordinates[0].strip()
-                coo1 = coordinates[1].strip()
+                coordinates = re.split(", ", parsed_line[1])
 
-                list_of_coordinates.append([parsed_line[0], coo0, coo1])
+                list_of_coordinates.append([parsed_line[0], coordinates[0], coordinates[1]])
                 coordinates_counter += 1
 
         print(str(stop_counter) + " stops were in the file")
@@ -295,7 +292,7 @@ class Agency:
 
         reverse_stop_name = list()
         times_list = list()
-        for element in reversed(contents):
+        for element in contents[::-1]:
             if re.match(regex, element):
                 times_list.append(element)
             elif re.match('^' + empty_time + '$', element):
@@ -304,8 +301,8 @@ class Agency:
                 # It means we got to the name of the stop
                 reverse_stop_name.append(element)
 
-        times_list = reversed(times_list)
-        stop_name = reversed(reverse_stop_name)
+        times_list = times_list[::-1]
+        stop_name = reverse_stop_name[::-1]
         name = ' '.join(stop_name)
 
         return name, times_list
@@ -372,17 +369,17 @@ class Agency:
             line.strip()
 
         # Here we get the name of the line and the service
-        first_line = lines[0]
-        first_line = first_line.split('\t')
-        first_line_splitted = [x for x in first_line if x != '']
-        route_name = first_line_splitted[0]
-        trips_service = first_line_splitted[1].strip()
+        metadata = Other.split_by_tab(lines[0])
+        route_name = metadata[0]
+        trips_service = metadata[1]
+
+
         try:
-            empty_time = first_line_splitted[2]
+            empty_time = metadata[2]
         except IndexError:
             empty_time = "-"
         try:
-            separator = first_line_splitted[3]
+            separator = metadata[3]
         except IndexError:
             separator = ":"
 
@@ -397,16 +394,22 @@ class Agency:
         # Right now, we have a table of horizontal lines.
         # We have to get vertical lines instead.
 
+        # It's time for a little check.
+        # It would be inconvenient that a bug allows to write anything in the files
+        lenght = len(list_times[0])
+        i = 0
+        for times in list_times:
+            i += 1
+            lenght2 = len(times)
+            if lenght != lenght2:
+                print("issue of lenght at the list " + list_stops_names[i])
+                print("The lenght is " + str(lenght2) + " instead of " + str(lenght))
+                assert lenght == lenght2
+
         # Transposed is the transposition of the table list_times
         transposed = list(map(list, zip(*list_times)))
 
-        # It's time for a little check.
-        # It would be inconvenient that a bug allows to write anything in the files
-        l = len(list_stops_names)
-        for times in transposed:
-            if l != len(times):
-                print("issue of lenght at the list " + times[0])
-                assert l == len(times)
+
 
         # Now we find the bus line in memory
         route1 = None
