@@ -255,19 +255,19 @@ class Agency:
         # First add the stops
         for stop in li:
             char = stop.name[0]
+
+            # Here we check if it's not a false stop or "*" or "/" or "//"
             if char != "*" and char != "/" and char != "$":
+                stop_id = Other.to_id(stop.name)
+
+                # Then we go into the list of stops in the agency to see if it was already there
                 found = False
-                stop_id2 = stop.name.replace(" ", "")
-                stop_id1 = stop_id2.replace(".", "")
-                stop_id3 = stop_id1.replace("'", "")
-                stop_id = stop_id3.replace("-", "")
-                stop_id_again = stop_id.lower()
                 for stop_in_memory in self.stops:
-                    if stop_in_memory.id == stop_id_again:
+                    if stop_in_memory.id == stop_id:
                         found = True
                         break
                 if not found:
-                    self.stops.append(Stop.Stop(stop.name, stop_id_again))
+                    self.stops.append(Stop.Stop(stop.name, stop_id))
 
         # Then delete the file
         try:
