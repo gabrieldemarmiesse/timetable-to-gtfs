@@ -19,7 +19,7 @@ class StopOfGraph:
     def init_from_line(self, line):
         # Initialise values from the line
 
-        splited_line = Other.split_by_tab(line)
+        splited_line = Other.split_by(line, "\t")
 
         # We get the name
         self.name = splited_line[0]

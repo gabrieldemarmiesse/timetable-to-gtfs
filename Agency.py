@@ -369,7 +369,7 @@ class Agency:
             line.strip()
 
         # Here we get the name of the line and the service
-        metadata = Other.split_by_tab(lines[0])
+        metadata = Other.split_by(lines[0], "\t")
         route_name = metadata[0]
         trips_service = metadata[1]
 

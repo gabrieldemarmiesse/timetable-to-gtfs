@@ -1,7 +1,9 @@
 import csv
 import os
 import re
+from difflib import SequenceMatcher
 
+threshold = None
 def read_csv(path, func):
     """
     This method execute a function for each line of a file (except the first one)
@@ -74,11 +76,39 @@ def to_id(string):
     return stop_id.lower()
 
 
-# This function parse a line containing element separated by multiple tabs
-def split_by_tab(string):
+# This function parse a line containing element separated by multiple separators
+def split_by(string, separator):
+    if separator == "\t":
+        separator = "\\t"
+
     string1 = string.replace("\n", "")
-    return re.split(' *\\t+ *', string1)
+    return re.split(" *" + separator + "+ *", string1)
 
 
-def count_iterable(i):
-    return sum(1 for e in i)
+def init_the_threshold():
+    pass
+
+def store_the_threshold():
+    pass
+
+# We should put a variable threshold
+#
+def similar(a, b):
+    global threshold
+    if threshold is None:
+        init_the_threshold()
+
+    p = SequenceMatcher(None, a, b).ratio()
+    if p > threshold:
+
+        # We ask for user's feedback
+        user_input = input("Is " + a + "the same as " + b + " ?  ")
+        if user_input == "":
+            threshold -= 0.0015
+            return True
+        else:
+            threshold += 0.01
+            return False
+
+    else:
+        return False
