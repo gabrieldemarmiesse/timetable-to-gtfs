@@ -1,6 +1,7 @@
 import csv
 import os
 import re
+import io
 from difflib import SequenceMatcher
 
 threshold = None
@@ -88,11 +89,12 @@ def split_by(string, separator):
 def init_the_threshold():
     pass
 
+
 def store_the_threshold():
     pass
 
+
 # We should put a variable threshold
-#
 def similar(a, b):
     global threshold
     if threshold is None:
