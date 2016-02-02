@@ -1,5 +1,9 @@
-import Other
+import io
+
+with io.open("lol.txt", "r", encoding="utf-8") as f:
+    bla = f.readline()
 
 
-Other.wh()
-Other.wh()
+file = io.open("lolfjr.txt", "w", encoding="utf-8")
+file.write(bla)
+file.close()

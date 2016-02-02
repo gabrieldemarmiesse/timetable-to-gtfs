@@ -1,14 +1,14 @@
-1
+ï»¿1
 AMPHORES
-Eglise Ste-Jeanne d’Arc
+Eglise Ste-Jeanne dâ€™Arc
 Trianon
 Pont Dulys
 Square Dulys
 Jardin Pauline
-Estérel		1
+EstÃ©rel		1
 St-Honorat	2
 Ruban Bleu
-Pin Doré
+Pin DorÃ©
 Printemps
 LYC. AUDIBERTI
 Balzac
@@ -17,7 +17,7 @@ Wilson
 DUGOMMIER	1
 Briand		2
 Diables Bleus	2
-PÔLE D’ÉCHANGES ANTIBES
+PÃ”LE Dâ€™Ã‰CHANGES ANTIBES
 Stade Nautique
 Oliviers
 Anthala
@@ -32,7 +32,7 @@ Stade des 3 Moulins
 Ateliers Municipaux
 Cistes
 FOYER LE ROC	1
-Lycée L. De Vinci
+LycÃ©e L. De Vinci
 Stade des 3 Moulins
 *
 Rd-Pt des Chappes
@@ -50,7 +50,7 @@ Bouillides
 EGANAUDE
 Bruscs
 G. Pompidou
-Garbejaïre
+GarbejaÃ¯re
 Cardoulines
 GR. VALBONNE SOPHIA ANTIPOLIS
 
