@@ -14,7 +14,7 @@ def read_csv(path, func):
     """
 
     try:
-        with open(path, 'r') as csvfile:
+        with io.open(path, 'r', encoding="utf-8") as csvfile:
             spamreader = csv.reader(csvfile, delimiter=',', quotechar='"')
             for i, row in enumerate(spamreader):
                 if i > 0:
@@ -48,7 +48,7 @@ def export_in_csv(objects_list, filename):
             os.remove(path)
         except FileNotFoundError:
             pass
-        file = open(path, 'w')
+        file = io.open(path, 'w', encoding="utf-8")
         file.write(first_line + "\n")
         for my_object in objects_list:
             file.write(list_to_csv(my_object.to_list()))

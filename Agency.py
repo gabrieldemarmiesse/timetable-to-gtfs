@@ -6,11 +6,12 @@ from routes import Stop
 from routes import Route
 from calendar import Calendar
 import re
+import io
 
 
 def read_coordinates():
     try:
-        with open("sgtfs/coordinates.txt", 'r') as file:
+        with open("sgtfs/coordinates.txt", 'r', encoding="utf-8") as file:
             lines = file.readlines()
 
         stop_counter = 0
@@ -21,7 +22,7 @@ def read_coordinates():
             stop_counter += 1
 
             # Here we parse the line
-            parsed_line = Other.split_by_tab(line)
+            parsed_line = Other.split_by(line, "\t")
 
             # We add it to the list if it contains coordinates
             if len(parsed_line) > 1:
@@ -47,7 +48,7 @@ def read_line_sgtfs(filename):
     """
     path = "sgtfs/" + filename
     try:
-        with open(path) as f:
+        with io.open(path, encoding="utf-8") as f:
             lines = f.readlines()
 
     except FileNotFoundError:
@@ -67,13 +68,13 @@ def get_name(new_line):
 
 def create_line_file(name):
     path = "sgtfs/" + name
-    open(path, 'a').close()
+    io.open(path, 'a', encoding="utf-8").close()
 
 
 def write(new_line, filename):
     # Write the lines of the list in the file called filename
     path = "sgtfs/" + filename
-    line_file = open(path, "w")
+    line_file = io.open(path, "w", encoding="utf-8")
     for line in new_line:
         line_file.write(line + "\n")
 
@@ -99,6 +100,7 @@ class Agency:
 
     def get_first_line_csv(self):
         return "agency_id, agency_name,agency_url,agency_timezone,agency_phone,agency_lang"
+
     # Initialize here the agency and ask user for information if
     # There is something missing
     def init_from_file(self, path="gtfs"):
@@ -188,7 +190,7 @@ class Agency:
     def init_trips_from_file(self, folder_name="gtfs"):
         path = folder_name + "/trips.txt"
         try:
-            with open(path, 'r') as csv_file:
+            with io.open(path, 'r', encoding="utf-8") as csv_file:
                 spam_reader = csv.reader(csv_file, delimiter=',', quotechar='"')
                 route_index = 0
                 for i, row in enumerate(spam_reader):
@@ -206,7 +208,7 @@ class Agency:
     def init_times_stops_from_file(self, folder_name="gtfs"):
         path = folder_name + "/stop_times.txt"
         try:
-            with open(path, 'r') as csv_file:
+            with io.open(path, 'r', encoding="utf-8") as csv_file:
                 spam_reader = csv.reader(csv_file, delimiter=',', quotechar='"')
                 route_index = 0
                 trip_index = 0
@@ -273,7 +275,7 @@ class Agency:
             pass
 
         # Then print stops which don't have coordinates
-        with open("sgtfs/coordinates.txt", "w") as f:
+        with io.open("sgtfs/coordinates.txt", "w", encoding="utf-8") as f:
             for stop in self.stops:
                 if stop.latitude == "":
                     f.write(stop.name + "\n")
@@ -359,7 +361,7 @@ class Agency:
         # This function takes a timetable and convert it to a list of trips
 
         try:
-            with open(file_path) as f:
+            with io.open(file_path, encoding="utf-8") as f:
                 lines = f.readlines()
         except FileNotFoundError:
             print("No timetable file")

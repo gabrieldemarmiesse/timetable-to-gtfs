@@ -1,3 +1,5 @@
+import io
+
 from routes.graph import StopOfGraph
 
 
@@ -126,8 +128,11 @@ where the bus doesn't usually go
         list of StopOfGraph which is much easier to use to
         create a graph"""
 
+        #uncoded_route_id = route_id.decode("utf-8")
+        route_id = str(route_id)
+        route_id = route_id[1:]
         path += "/line_" + route_id + ".txt"
-        with open(path) as f:
+        with io.open(path, encoding="utf-8") as f:
             lines = f.readlines()
 
         stop_of_graph_list = list()

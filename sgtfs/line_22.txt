@@ -1,28 +1,28 @@
-22
+ï»¿22
 BEL AIR
 Bois de Valbonne
 Macarons		1
-LYCÉE VSA HAUT		1
-LYCÉE VSA BAS		2
+LYCÃ‰E VSA HAUT		1
+LYCÃ‰E VSA BAS		2
 Cigales
-Stade Léon Chabert	1
-Véronière
+Stade LÃ©on Chabert	1
+VÃ©roniÃ¨re
 Pierrefeu
 Bruisses		1
-Oréades
+OrÃ©ades
 VALBONNE VILLAGE
-Hôtel de Ville
+HÃ´tel de Ville
 Pont de la Brague
 Hauts de Valbonne
 Val de Cuberte
-Carrière
+CarriÃ¨re
 Font de Cuberte		1
 Fauvettes
 Petite Ferme
 Peyniblou
 VAL MARTIN
 Place Bermond		1
-Genêts			2
+GenÃªts			2
 GR. VALBONNE SOPHIA ANTIPOLIS
 /
 $1
@@ -32,7 +32,7 @@ $2
 $3
 /
 Cardoulines
-Garbejaïre
+GarbejaÃ¯re
 G. Pompidou
 /
 Bruscs
@@ -45,5 +45,5 @@ Rd-Pt des Chappes
 Stade des 3 Moulins
 Ateliers Municipaux	1
 Cistes			1
-Lycée L. de Vinci	2
+LycÃ©e L. de Vinci	2
 FOYER LE ROC

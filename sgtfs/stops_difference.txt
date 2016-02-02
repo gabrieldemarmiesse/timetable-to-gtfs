@@ -1,1 +1,1 @@
-truc bidule != truc
+﻿truc bidule != truc
