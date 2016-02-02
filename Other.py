@@ -94,6 +94,8 @@ def store_the_threshold():
 # We should put a variable threshold
 #
 def similar(a, b):
+    a_lower = a.lower()
+    b_lower = b.lower()
     global threshold
     if threshold is None:
         init_the_threshold()
@@ -105,9 +107,11 @@ def similar(a, b):
         user_input = input("Is " + a + "the same as " + b + " ?  ")
         if user_input == "":
             threshold -= 0.0015
+            store_relation("equal", a, b)
             return True
         else:
             threshold += 0.01
+            store_relation("inequal", a, b)
             return False
 
     else:
