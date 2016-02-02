@@ -2,7 +2,7 @@ import csv
 import os
 import re
 import io
-from difflib import SequenceMatcher
+
 
 threshold = None
 def read_csv(path, func):
@@ -84,37 +84,3 @@ def split_by(string, separator):
 
     string1 = string.replace("\n", "")
     return re.split(" *" + separator + "+ *", string1)
-
-
-def init_the_threshold():
-    pass
-
-
-def store_the_threshold():
-    pass
-
-
-# We should put a variable threshold
-def similar(a, b):
-    a_lower = a.lower()
-    b_lower = b.lower()
-    global threshold
-    if threshold is None:
-        init_the_threshold()
-
-    p = SequenceMatcher(None, a, b).ratio()
-    if p > threshold:
-
-        # We ask for user's feedback
-        user_input = input("Is " + a + "the same as " + b + " ?  ")
-        if user_input == "":
-            threshold -= 0.0015
-            store_relation("equal", a, b)
-            return True
-        else:
-            threshold += 0.01
-            store_relation("inequal", a, b)
-            return False
-
-    else:
-        return False
