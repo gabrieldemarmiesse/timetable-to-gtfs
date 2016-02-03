@@ -93,6 +93,20 @@ def write_list_of_list_in_file(filename, strings, separator):
     """
 
     # We should get the type of strings to see if its a list or a list of list.
+    try:
+        first_element = strings[0]
+    except IndexError:
+        return
 
-    list_of_list = strings
-    
+    if type(first_element).__name__ == "str":
+        strings = [[x, ] for x in strings]
+
+    try:
+        os.remove(filename)
+    except FileNotFoundError:
+        pass
+
+    with io.open(filename, "w", encoding="uft-8") as f:
+        f.write()
+
+

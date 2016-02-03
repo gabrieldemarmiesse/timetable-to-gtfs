@@ -40,7 +40,6 @@ class Comparator:
             different_stops = Other.split_by(line, "!")
             self.list_differentiation.append(different_stops)
 
-
         try:
             with io.open("threshold.txt", encoding="utf-8") as f:
                 line = f.readline()
