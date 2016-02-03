@@ -1,4 +1,5 @@
 from difflib import SequenceMatcher
+import io
 
 
 class Comparator:
@@ -11,17 +12,23 @@ class Comparator:
         first_list_differentiation, second_list_differentiation come from different_stops.txt
     """
 
-    def __self__(self, first_list_differentiation, second_list_differentiation,
-                 list_of_list_of_identical_stops, threshold):
+    def __self__(self):
+        try:
+            with io.open("same_stops.txt", encoding="utf-8") as f:
+                equalities = f.readlines()
+        except FileNotFoundError:
+            equalities = list()
 
+        try:
+            with io.open("different_stops.txt", encoding="uft-8") as f:
+                differences = f.readlines()
+        except FileNotFoundError:
+            differences = list()
         self.first_list_differentiation = first_list_differentiation
         self.second_list_differentiation = second_list_differentiation
         self.list_of_list_of_identical_stops = list_of_list_of_identical_stops
         self.threshold = threshold
 
-    @classmethod
-    def init_from_files(cls):
-        pass
 
     def compare(self, first_stop_name, second_stop_name):
         a_lower = first_stop_name.lower()
