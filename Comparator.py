@@ -89,11 +89,18 @@ class Comparator:
             self.store_same_stops(first_stop_name, second_stop_name)
 
     def store_different_stops(self, first_stop_name, second_stop_name):
-
-            pass
+        self.first_list_differentiation.append(first_stop_name)
+        self.second_list_differentiation.append(second_stop_name)
 
     def store_same_stops(self, first_stop_name, second_stop_name):
-        pass
+        for equality in self.list_of_list_of_identical_stops:
+            for stop in equality:
+                if stop == first_stop_name:
+                    equality.append(second_stop_name)
+                    return
+                if stop == second_stop_name:
+                    equality.append(first_stop_name)
+                    return
 
     def __exit__(self, *err):
         self.write_to_disk()
