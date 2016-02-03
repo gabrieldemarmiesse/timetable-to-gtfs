@@ -84,3 +84,15 @@ def split_by(string, separator):
 
     string1 = string.replace("\n", "")
     return re.split(" *" + separator + "+ *", string1)
+
+def write_list_of_list_in_file(filename, strings, separator):
+    """
+    :param filename: The name of the file in which we're gonna store the data
+    :param strings: The data to store (it has to be strings) it can be a list too
+    :param separator: The character that will be put between strings
+    """
+
+    # We should get the type of strings to see if its a list or a list of list.
+
+    list_of_list = strings
+    

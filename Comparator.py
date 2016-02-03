@@ -1,5 +1,6 @@
 from difflib import SequenceMatcher
 import io
+import Other
 
 
 class Comparator:
@@ -13,22 +14,42 @@ class Comparator:
     """
 
     def __self__(self):
+
+        self.list_differentiation = list()
+        self.list_of_list_of_identical_stops = list()
+        self.threshold = None
+
         try:
             with io.open("same_stops.txt", encoding="utf-8") as f:
                 equalities = f.readlines()
         except FileNotFoundError:
+            print("same_stops.txt not found")
             equalities = list()
-
         try:
             with io.open("different_stops.txt", encoding="uft-8") as f:
                 differences = f.readlines()
         except FileNotFoundError:
+            print("different_stops.txt not found")
             differences = list()
-        self.first_list_differentiation = first_list_differentiation
-        self.second_list_differentiation = second_list_differentiation
-        self.list_of_list_of_identical_stops = list_of_list_of_identical_stops
-        self.threshold = threshold
 
+        for line in equalities:
+            list_of_same_names = Other.split_by(line, "=")
+            self.list_of_list_of_identical_stops.append(list_of_same_names)
+
+        for line in differences:
+            different_stops = Other.split_by(line, "!")
+            self.list_differentiation.append(different_stops)
+
+
+        try:
+            with io.open("threshold.txt", encoding="utf-8") as f:
+                line = f.readline()
+                threshold = line[:-1]
+        except FileNotFoundError:
+            print("threshold.txt not found")
+            threshold = "0.6"
+
+        self.threshold = float(threshold)
 
     def compare(self, first_stop_name, second_stop_name):
         a_lower = first_stop_name.lower()
@@ -67,24 +88,14 @@ class Comparator:
         """
 
         # Here we compare with the stops in the differencition file
-        for i, stop_name in enumerate(self.first_list_differentiation):
-            if first_stop_name == stop_name:
-                if second_stop_name == self.second_list_differentiation[i]:
-                    return True, False
-            elif second_stop_name == stop_name:
-                if first_stop_name == self.second_list_differentiation[i]:
-                    return True, False
+        a = [first_stop_name, second_stop_name]
+        b = [second_stop_name, first_stop_name]
+        if a in self.list_differentiation or b in self.list_differentiation:
+            return True, False
 
         # Now we look into the sames stops that have different names
         for equality in self.list_of_list_of_identical_stops:
-            found_first = False
-            found_second = False
-            for stop_name in equality:
-                if stop_name == first_stop_name:
-                    found_first = True
-                if stop_name == second_stop_name:
-                    found_second = True
-            if found_first and found_second:
+            if first_stop_name in equality and second_stop_name in equality:
                 return True, True
 
         return False, None
@@ -96,8 +107,7 @@ class Comparator:
             self.store_same_stops(first_stop_name, second_stop_name)
 
     def store_different_stops(self, first_stop_name, second_stop_name):
-        self.first_list_differentiation.append(first_stop_name)
-        self.second_list_differentiation.append(second_stop_name)
+        self.list_differentiation.append([first_stop_name, second_stop_name])
 
     def store_same_stops(self, first_stop_name, second_stop_name):
         for equality in self.list_of_list_of_identical_stops:
