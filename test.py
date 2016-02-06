@@ -1,2 +1,5 @@
-a = None
-print(type(a).__name__)
+import Comparator
+
+with Comparator.Comparator() as comparator:
+    a = comparator.compare("Valbonne village", "hauts Valbonne")
+    print(a)

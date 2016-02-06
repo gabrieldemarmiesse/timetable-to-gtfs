@@ -106,7 +106,15 @@ def write_list_of_list_in_file(filename, strings, separator):
     except FileNotFoundError:
         pass
 
-    with io.open(filename, "w", encoding="uft-8") as f:
-        f.write()
+    with io.open(filename, "w", encoding="utf-8") as f:
+        for list_of_strings in strings:
+            for i, string in enumerate(list_of_strings):
+                if i == 0:
+                    f.write(string)
+                else:
+                    f.write(" " + separator + " " + string)
+            f.write("\n")
+
+
 
 
