@@ -21,7 +21,7 @@ where the bus doesn't usually go
     def __init__(self, route_id):
         self.dictionary = dict()
         self.line_id = "undefined"
-        self.list_stops_of_graph_list = list()
+        self.list_stops_of_graph = list()
         self.create_from_file(route_id)
 
     def insert_node(self, main_node, *links_to_add):
@@ -48,9 +48,10 @@ where the bus doesn't usually go
         self.insert_node(other_node, main_node)
 
     def create_from_file(self, route_id, path="sgtfs"):
-        self.list_stops_of_graph_list = self.read_file(path, route_id)
+        self.list_stops_of_graph = self.read_file(path, route_id)
 
-        previous_name = self.list_stops_of_graph_list[0].name
+
+        previous_name = self.list_stops_of_graph[0].name
         node_before_star1 = None
         node_before_star2 = None
         node_before_slash1 = None
@@ -61,7 +62,7 @@ where the bus doesn't usually go
         slash_count = 0
         double_slash_count = 0
 
-        for i, current_node in enumerate(self.list_stops_of_graph_list[1:]):
+        for i, current_node in enumerate(self.list_stops_of_graph[1:]):
             current_stop = current_node.name
             if current_stop == "*":
                 node_before_star2 = node_before_star1
@@ -107,15 +108,15 @@ where the bus doesn't usually go
                 else:
                     if current_node.link_up:
                         j = i
-                        while self.list_stops_of_graph_list[j].link_up is False:
+                        while self.list_stops_of_graph[j].link_up is False:
                             j -= 1
-                        self.insert_node(current_stop, self.list_stops_of_graph_list[j].name)
+                        self.insert_node(current_stop, self.list_stops_of_graph[j].name)
 
                     if current_node.link_down:
                         j = i
-                        while self.list_stops_of_graph_list[j].link_down is False:
+                        while self.list_stops_of_graph[j].link_down is False:
                             j -= 1
-                        self.insert_node(self.list_stops_of_graph_list[j].name, current_stop)
+                        self.insert_node(self.list_stops_of_graph[j].name, current_stop)
 
             previous_name = current_node.name
 

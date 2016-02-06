@@ -3,6 +3,19 @@ import io
 import Other
 import re
 
+def read_string(element, have_to_get_name):
+    if have_to_get_name:
+        return element.name
+    else:
+        return element
+
+def write_string(element, new_string, have_to_get_name):
+    if have_to_get_name:
+        element.name = new_string
+        return element
+    else:
+        element = new_string
+        return element
 
 class Comparator:
     """ This class is here to compare two stops and tell if they're the same.
@@ -97,9 +110,9 @@ class Comparator:
             return True, False
 
         # Now we look into the sames stops that have different names
-        for equality in self.list_of_list_of_identical_stops:
-            if first_stop_name in equality and second_stop_name in equality:
-                return True, True
+        # for equality in self.list_of_list_of_identical_stops:
+        #     if first_stop_name in equality and second_stop_name in equality:
+        #         return True, True
 
         return False, None
 
@@ -123,6 +136,15 @@ class Comparator:
                     return
         self.list_of_list_of_identical_stops.append([first_stop_name, second_stop_name])
 
+    def look_for_stop(self, stop_name):
+        # This function look in the file same_stops.txt to see if the real name of the stop is known.
+
+        for line in self.list_of_list_of_identical_stops:
+            for name in line:
+                if name.lower() == stop_name.lower():
+                    return line[0]
+        return stop_name
+
     def __exit__(self, *err):
         self.write_to_disk()
 
@@ -135,3 +157,34 @@ class Comparator:
     def __enter__(self):
         print('creating comparator')
         return self  # this is bound to the `as` part
+
+    def update_list(self, list1, list2):
+        # In the lists, it can be a string, a stop, or a stopOfGraph.
+        # In consequences there are two function in charger of getting and
+        # reading the string so that update_list works with those 3 types of objects.
+
+        result_list = list()
+
+        try:
+            have_to_get_name_list1 = list1[0].__class__.__name__ != "str"
+            have_to_get_name_list2 = list2[0].__class__.__name__ != "str"
+        except IndexError:
+            return
+
+        for element in list1:
+
+            # First we look in the same_stops.txt to check if we didn't already see this case
+            new_name = self.look_for_stop(read_string(element, have_to_get_name_list1))
+
+            if new_name == read_string(element, have_to_get_name_list1):
+                # That means we didn't find the true name of the stop
+
+                for element2 in list2:
+                    string_element2 = read_string(element2, have_to_get_name_list2)
+                    if self.compare(new_name, string_element2):
+                        new_name = string_element2
+
+            new_element = write_string(element, new_name, have_to_get_name_list1)
+            result_list.append(new_element)
+
+        return result_list

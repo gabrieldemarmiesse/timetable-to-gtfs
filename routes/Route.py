@@ -78,7 +78,6 @@ class Route:
 
     def init_graph(self):
         self.graph = LinkedStops.LinkedStops(self.id)
-        return self.graph.list_stops_of_graph_list
 
     @staticmethod
     def get_first_csv_line():

@@ -7,6 +7,7 @@ from routes import Route
 from calendar import Calendar
 import re
 import io
+import Comparator
 
 
 def read_coordinates():
@@ -393,6 +394,8 @@ class Agency:
             list_stops_names.append(name)
             list_times.append(times_list)
 
+        # Here we perform a check to ensure that
+
         # Right now, we have a table of horizontal lines.
         # We have to get vertical lines instead.
 
@@ -426,8 +429,18 @@ class Agency:
             self.routes.append(route1)
 
         # Here we initialise the graph, and we update all the stops found
-        list_stops_of_graph_list = route1.init_graph()
-        self.update_stops(list_stops_of_graph_list)
+        route1.init_graph()
+
+        # We make comparaison with the list of stops in memory to avoid to have sames
+        # stops with different names
+
+        with Comparator.Comparator() as comparator:
+            route1.graph.list_stops_of_graph = comparator.update_list(route1.graph.list_stops_of_graph, self.stops)
+            list_stops_names = comparator.update_list(list_stops_names, route1.graph.list_stops_of_graph)
+
+        self.update_stops(route1.graph.list_stops_of_graph)
+
+
 
         # Here we check that the stops of the timetable correspond to the stops of the graph
         route1.graph.check_stops(list_stops_names)
