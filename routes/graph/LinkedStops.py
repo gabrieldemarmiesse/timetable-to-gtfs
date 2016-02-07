@@ -18,11 +18,10 @@ We also add artificially false bus stops
 where the bus doesn't usually go
 (he will take the shortest path)"""
 
-    def __init__(self, route_id):
+    def __init__(self,route_id):
         self.dictionary = dict()
         self.line_id = "undefined"
-        self.list_stops_of_graph = list()
-        self.create_from_file(route_id)
+        self.list_stops_of_graph = self.read_file("sgtfs", route_id)
 
     def insert_node(self, main_node, *links_to_add):
         # The first argument is the node from where starts the links
@@ -47,9 +46,7 @@ where the bus doesn't usually go
         self.insert_node(main_node, other_node)
         self.insert_node(other_node, main_node)
 
-    def create_from_file(self, route_id, path="sgtfs"):
-        self.list_stops_of_graph = self.read_file(path, route_id)
-
+    def create_from_file(self):
 
         previous_name = self.list_stops_of_graph[0].name
         node_before_star1 = None
@@ -120,9 +117,35 @@ where the bus doesn't usually go
 
             previous_name = current_node.name
 
-    def check_stops(self, list_stops):
+    def check_stops(self, list_stops, comparator):
+        list_returned = list()
+
         for stop in list_stops:
-            a = self.dictionary[stop]
+            stop = comparator.look_for_stop(stop)
+            try:
+                a = self.dictionary[stop]
+                list_returned.append(stop)
+            except:
+                # There is no stop name in the line corresponding, we'll check in depth
+                found = False
+                list_of_ressemblance = list()
+                for i, line in enumerate(self.list_stops_of_graph):
+                    list_of_ressemblance.append([comparator.get_ressemblance(line.name, stop), i])#todo
+                    if comparator.compare(line.name, stop):
+                        found = True
+                        list_returned.append(line.name)
+                        break
+                if not found:
+                    sorted_list = sorted(list_of_ressemblance)
+                    for ressemblance in sorted_list:
+                        if comparator.compare(self.list_stops_of_graph[ressemblance[1]].name, stop, True):
+                            found = True
+                            list_returned.append(self.list_stops_of_graph[ressemblance[1]].name)
+                            break
+                    if not found:
+                        assert False
+
+        return list_returned
 
     def read_file(self, path, route_id):
         """this method parse the file line.txt to create a

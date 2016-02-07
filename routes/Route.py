@@ -76,9 +76,6 @@ class Route:
         elements_list.append(self.type)
         return elements_list
 
-    def init_graph(self):
-        self.graph = LinkedStops.LinkedStops(self.id)
-
     @staticmethod
     def get_first_csv_line():
         return "route_id,route_short_name,route_long_name,route_desc,route_type\n"

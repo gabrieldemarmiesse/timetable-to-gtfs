@@ -1,9 +1,15 @@
+import Other
+
+
 class Stop:
     def __init__(self, name, id=None, description="", latitude="", longitude="",
                  url="", location_type="", parent_station=""):
 
-        self.id = id
         self.name = name
+        if id is None:
+            self.id = Other.to_id(name)
+        else:
+            self.id = id
         self.description = description
         self.latitude = latitude
         self.longitude = longitude

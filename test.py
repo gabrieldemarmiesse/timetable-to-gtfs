@@ -1,7 +1,3 @@
-
-def b(list):
-   list = "grgrgrgrg"
-
-a = "oooooooooooo"
-b(a)
+a = [[3,4,5,4],[5,5,5,5],[3,2,6,8]]
+sorted(a)
 print(a)

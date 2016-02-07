@@ -4,6 +4,7 @@ import Other
 import os
 from routes import Stop
 from routes import Route
+from routes.graph import LinkedStops
 from calendar import Calendar
 import re
 import io
@@ -251,9 +252,11 @@ class Agency:
 
         return count_of_updates
 
-    def update_stops(self, li):
+    def update_stops(self, li, comparator):
+
         # First add the stops
-        for stop in li:
+        for i, stop in enumerate(li):
+            li[i].name = comparator.look_for_stop(li[i].name)
             char = stop.name[0]
 
             # Here we check if it's not a false stop or "*" or "/" or "//"
@@ -267,7 +270,13 @@ class Agency:
                         found = True
                         break
                 if not found:
-                    self.stops.append(Stop.Stop(stop.name, stop_id))
+                    for stop_in_memory in self.stops:
+                        if comparator.compare(stop_in_memory.name, stop.name):
+                            li[i].name = stop_in_memory.name
+                            found = True
+                            break
+                    if not found:
+                        self.stops.append(Stop.Stop(stop.name))
 
         # Then delete the file
         try:
@@ -428,22 +437,22 @@ class Agency:
             route1 = Route.Route.from_stops_list(route_name, list_stops_names)
             self.routes.append(route1)
 
-        # Here we initialise the graph, and we update all the stops found
-        route1.init_graph()
+        # Here we initialise the graph (just getting the stops names in the file)
+        route1.graph = LinkedStops.LinkedStops(route1.id)
 
-        # We make comparaison with the list of stops in memory to avoid to have sames
+        # We make comparison with the list of stops in memory to avoid to have sames
         # stops with different names
 
         with Comparator.Comparator() as comparator:
-            route1.graph.list_stops_of_graph = comparator.update_list(route1.graph.list_stops_of_graph, self.stops)
-            list_stops_names = comparator.update_list(list_stops_names, route1.graph.list_stops_of_graph)
+            self.update_stops(route1.graph.list_stops_of_graph, comparator)
 
-        self.update_stops(route1.graph.list_stops_of_graph)
+        # Now that we made sure that the list of stops has nothing unusual, we can actually draw the graph
+        route1.graph.create_from_file()
 
 
 
         # Here we check that the stops of the timetable correspond to the stops of the graph
-        route1.graph.check_stops(list_stops_names)
+        list_stops_names = route1.graph.check_stops(list_stops_names, comparator)
 
         count = 0
         for times in transposed:

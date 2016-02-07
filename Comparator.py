@@ -65,7 +65,7 @@ class Comparator:
 
         self.threshold = float(threshold)
 
-    def compare(self, first_stop_name, second_stop_name):
+    def compare(self, first_stop_name, second_stop_name, force_compare=False):
 
         # We need to check if the names were in the files
         found, result_files_search = self.compare_from_files(first_stop_name, second_stop_name)
@@ -77,22 +77,30 @@ class Comparator:
             b_lower = second_stop_name.lower()
 
             p = SequenceMatcher(None, a_lower, b_lower).ratio()
-            print(p)
-            if p > self.threshold:
+            if p > self.threshold or force_compare:
 
                 # We ask for user's feedback
                 user_input = input("Is " + first_stop_name + "the same as " + second_stop_name + " ?  ")
                 if user_input == "":
-                    self.threshold -= 0.0015
+                    if not force_compare:
+                        self.threshold -= 0.0015
                     self.store_relation(True, first_stop_name, second_stop_name)
                     return True
                 else:
-                    self.threshold += 0.01
+                    if not force_compare:
+                        self.threshold += 0.01
                     self.store_relation(False, first_stop_name, second_stop_name)
                     return False
 
             else:
                 return False
+
+    def get_ressemblance(self, first_stop_name, second_stop_name):
+        a_lower = first_stop_name.lower()
+        b_lower = second_stop_name.lower()
+
+        p = SequenceMatcher(None, a_lower, b_lower).ratio()
+        return p
 
     def compare_from_files(self, first_stop_name, second_stop_name):
         """
