@@ -118,12 +118,19 @@ def write_list_of_list_in_file(filename, strings, separator):
 
 
 def replace_in_file(filename, word, replacement="", delete_line=False):
+    """
+    :param filename: The name of the file to modify
+    :param word: The word to look for in the file
+    :param replacement: Optional. It's the word replacement. "" is to delete the line
+    :param delete_line: If true, the line containing the word must be deleted
+    :return: Nothing
+    """
 
+    word = re.escape("\"" + word + "\"")
     if delete_line:
-        word = re.escape("\"" + word + "\"")
         word = "^.*" + word + ".*$\\n"
     else:
-        word = re.escape(word)
+        replacement = "\"" + replacement + "\""
 
     regex = re.compile(word, re.IGNORECASE)
     with fileinput.FileInput(filename, inplace=True, backup='.bak') as file:

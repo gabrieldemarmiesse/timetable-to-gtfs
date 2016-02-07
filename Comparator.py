@@ -17,6 +17,16 @@ def write_string(element, new_string, have_to_get_name):
         element = new_string
         return element
 
+def fuse_two_stops(real_name, alias):
+    real_id = Other.to_id(real_name)
+    alias_id = Other.to_id(alias)
+
+    # We first take care of stops.txt
+    Other.replace_in_file("gtfs/stops.txt", alias, delete_line=True)
+
+    # Now we take care of stop_times.txt
+    Other.replace_in_file("gtfs/stop_times.txt", alias_id, real_id)
+
 class Comparator:
     """ This class is here to compare two stops and tell if they're the same.
         An example is "Chap. Combes" and "Chapelle des Combes"
@@ -196,3 +206,10 @@ class Comparator:
             result_list.append(new_element)
 
         return result_list
+
+    def fuse_all_stops(self):
+        for line in self.list_of_list_of_identical_stops:
+
+            # The first element of line is supposed to be the real name so it's not in the for loop
+            for alias in line[1:]:
+                fuse_two_stops(line[0], alias)
