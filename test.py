@@ -1,3 +1,3 @@
-a = [[3,4,5,4],[5,5,5,5],[3,2,6,8]]
-sorted(a)
-print(a)
+import Other
+
+Other.replace_in_file("gtfs/stop_times.txt", "pontdulys", delete_line=True)

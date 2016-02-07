@@ -2,6 +2,7 @@ import csv
 import os
 import re
 import io
+import fileinput
 
 
 threshold = None
@@ -116,5 +117,16 @@ def write_list_of_list_in_file(filename, strings, separator):
             f.write("\n")
 
 
+def replace_in_file(filename, word, replacement="", delete_line=False):
 
+    if delete_line:
+        word = re.escape("\"" + word + "\"")
+        word = "^.*" + word + ".*$\\n"
+    else:
+        word = re.escape(word)
+
+    regex = re.compile(word, re.IGNORECASE)
+    with fileinput.FileInput(filename, inplace=True, backup='.bak') as file:
+        for line in file:
+            print(regex.sub(replacement, line), end='')
 
