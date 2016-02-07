@@ -80,7 +80,7 @@ class Comparator:
             if p > self.threshold or force_compare:
 
                 # We ask for user's feedback
-                user_input = input("Is " + first_stop_name + "the same as " + second_stop_name + " ?  ")
+                user_input = input("Is " + first_stop_name + " the same as " + second_stop_name + " ?  ")
                 if user_input == "":
                     if not force_compare:
                         self.threshold -= 0.0015
@@ -158,7 +158,7 @@ class Comparator:
 
     def write_to_disk(self):
         # Here we write the data from the object in files so that it can be destroyed
-        Other.write_list_of_list_in_file("sgtfs/same_stops.txt",self.list_of_list_of_identical_stops, "=")
+        Other.write_list_of_list_in_file("sgtfs/same_stops.txt", self.list_of_list_of_identical_stops, "=")
         Other.write_list_of_list_in_file("sgtfs/different_stops.txt", self.list_differentiation, "!")
         Other.write_list_of_list_in_file("threshold.txt", [str(self.threshold), ], "")
 

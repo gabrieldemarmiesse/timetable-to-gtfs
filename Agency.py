@@ -446,13 +446,13 @@ class Agency:
         with Comparator.Comparator() as comparator:
             self.update_stops(route1.graph.list_stops_of_graph, comparator)
 
-        # Now that we made sure that the list of stops has nothing unusual, we can actually draw the graph
-        route1.graph.create_from_file()
+            # Now that we made sure that the list of stops has nothing unusual, we can actually draw the graph
+            route1.graph.create_from_file()
 
 
 
-        # Here we check that the stops of the timetable correspond to the stops of the graph
-        list_stops_names = route1.graph.check_stops(list_stops_names, comparator)
+            # Here we check that the stops of the timetable correspond to the stops of the graph
+            list_stops_names = route1.graph.check_stops(list_stops_names, comparator)
 
         count = 0
         for times in transposed:
