@@ -499,4 +499,19 @@ class Agency:
 
         agency.print()
 
+        agency.print_to_console()
+
         print(" ****** All done ****** ")
+
+    def print_to_console(self):
+        """ This function will print the structure of the agency object, so that it's easier to understand
+            if something went wrong
+        """
+
+        print(self.name)
+        for route in self.routes:
+            print("----> Line " + route.id)
+
+            for trip in route.trips:
+                pass
+                # we have to count each trip of service.
