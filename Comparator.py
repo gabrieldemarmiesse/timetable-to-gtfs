@@ -3,11 +3,13 @@ import io
 import Other
 import re
 
+
 def read_string(element, have_to_get_name):
     if have_to_get_name:
         return element.name
     else:
         return element
+
 
 def write_string(element, new_string, have_to_get_name):
     if have_to_get_name:
@@ -16,6 +18,7 @@ def write_string(element, new_string, have_to_get_name):
     else:
         element = new_string
         return element
+
 
 def fuse_two_stops(real_name, alias):
     real_id = Other.to_id(real_name)
@@ -26,6 +29,7 @@ def fuse_two_stops(real_name, alias):
 
     # Now we take care of stop_times.txt
     Other.replace_in_file("gtfs/stop_times.txt", alias_id, real_id)
+
 
 class Comparator:
     """ This class is here to compare two stops and tell if they're the same.
@@ -76,6 +80,14 @@ class Comparator:
         self.threshold = float(threshold)
 
     def compare(self, first_stop_name, second_stop_name, force_compare=False):
+
+        if (first_stop_name[0] == "$" or
+            first_stop_name[0] == "/" or
+            first_stop_name[0] == "*" or
+            second_stop_name[0] == "$" or
+            second_stop_name[0] == "/" or
+            second_stop_name[0] == "*"):
+            return False
 
         # We need to check if the names were in the files
         found, result_files_search = self.compare_from_files(first_stop_name, second_stop_name)

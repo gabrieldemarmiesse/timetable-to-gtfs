@@ -130,7 +130,7 @@ where the bus doesn't usually go
                 found = False
                 list_of_ressemblance = list()
                 for i, line in enumerate(self.list_stops_of_graph):
-                    list_of_ressemblance.append([comparator.get_ressemblance(line.name, stop), i])#todo
+                    list_of_ressemblance.append([comparator.get_ressemblance(line.name, stop), i])
                     if comparator.compare(line.name, stop):
                         found = True
                         list_returned.append(line.name)
