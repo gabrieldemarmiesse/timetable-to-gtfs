@@ -18,6 +18,7 @@ and so on. It'll be easier to check that the program is not doing anything crazy
 Add an option to remove trips which have the same start and end (and service).
 Check if there is a way to facilitate adding regular trips.
 Find a fast way to add holidays
+Use equality file to find inequalities.
 
 Add a graphical interface
 

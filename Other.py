@@ -84,7 +84,9 @@ def split_by(string, separator):
         separator = "\\t"
 
     string1 = string.replace("\n", "")
-    return re.split(" *" + separator + "+ *", string1)
+    splitted = re.split(" *" + separator + "+ *", string1)
+    return [x for x in splitted if x != ""]
+
 
 def write_list_of_list_in_file(filename, strings, separator):
     """

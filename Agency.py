@@ -20,7 +20,9 @@ def read_coordinates():
         coordinates_counter = 0
 
         list_of_coordinates = list()
-        for line in lines:
+        for i, line in enumerate(lines):
+            if i == 0:
+                line = line[1:]
             stop_counter += 1
 
             # Here we parse the line
@@ -39,7 +41,7 @@ def read_coordinates():
         print(str(coordinates_counter) + " coordinates were in the file")
         return list_of_coordinates
 
-    except:
+    except FileNotFoundError:
         print("There is no sgtfs/coordinates.txt file")
 
 
@@ -170,6 +172,19 @@ class Agency:
         print(str(self.count) + " stops have been imported from the file")
         self.count = 0
 
+    def print_coordinates_file(self):
+        # Delete the file
+        try:
+            os.remove("sgtfs/coordinates.txt")
+        except FileNotFoundError:
+            pass
+
+        # Then print stops which don't have coordinates
+        with io.open("sgtfs/coordinates.txt", "w", encoding="utf-8") as f:
+            for stop in self.stops:
+                if stop.latitude == "":
+                    f.write(stop.name + "\n")
+
     def add_stop(self, line):
         stop = Stop.Stop.init_from_line(line)
         self.stops.append(stop)
@@ -278,18 +293,6 @@ class Agency:
                     if not found:
                         self.stops.append(Stop.Stop(stop.name))
 
-        # Then delete the file
-        try:
-            os.remove("sgtfs/coordinates.txt")
-        except FileNotFoundError:
-            pass
-
-        # Then print stops which don't have coordinates
-        with io.open("sgtfs/coordinates.txt", "w", encoding="utf-8") as f:
-            for stop in self.stops:
-                if stop.latitude == "":
-                    f.write(stop.name + "\n")
-
     @staticmethod
     def get_list_of_times_and_stop_name(line, sep_hours_minutes=':', empty_time='-', separator=None):
         # This function parse a line of the timetable, it returns
@@ -338,7 +341,7 @@ class Agency:
             number_of_updated_stops = 0
         else:
             number_of_updated_stops = self.find_and_update(list_of_coordinates)
-        print("we've updated " + str(number_of_updated_stops) + "stop coordinates")
+        print("we've updated " + str(number_of_updated_stops) + " stop coordinates")
 
     def update_line(self):
         # Find updates in the lines
@@ -408,56 +411,61 @@ class Agency:
         # Right now, we have a table of horizontal lines.
         # We have to get vertical lines instead.
 
-        # It's time for a little check.
-        # It would be inconvenient that a bug allows to write anything in the files
-        lenght = len(list_times[0])
-        i = 0
-        for times in list_times:
-            i += 1
-            lenght2 = len(times)
-            if lenght != lenght2:
-                print("issue of lenght at the list " + list_stops_names[i])
-                print("The lenght is " + str(lenght2) + " instead of " + str(lenght))
-                assert lenght == lenght2
-
-        # Transposed is the transposition of the table list_times
-        transposed = list(map(list, zip(*list_times)))
-
-
-
-        # Now we find the bus line in memory
-        route1 = None
-        for route in self.routes:
-            if route.id == route_name:
-                route1 = route
-                break
-
-        if route1 is None:
-            # Then we have to create the bus line (add a route to the agency)
-            route1 = Route.Route.from_stops_list(route_name, list_stops_names)
-            self.routes.append(route1)
-
-        # Here we initialise the graph (just getting the stops names in the file)
-        route1.graph = LinkedStops.LinkedStops(route1.id)
-
-        # We make comparison with the list of stops in memory to avoid to have sames
-        # stops with different names
-
-        with Comparator.Comparator() as comparator:
-            self.update_stops(route1.graph.list_stops_of_graph, comparator)
-
-            # Now that we made sure that the list of stops has nothing unusual, we can actually draw the graph
-            route1.graph.create_from_file()
-
-
-
-            # Here we check that the stops of the timetable correspond to the stops of the graph
-            list_stops_names = route1.graph.check_stops(list_stops_names, comparator)
-
         count = 0
-        for times in transposed:
-            route1.add_trip_from_times(list_stops_names, times, trips_service)
-            count += 1
+
+        # The if is here in case there is actually no times in the timetable.txt
+        if len(list_times) > 0:
+
+            # It's time for a little check.
+            # It would be inconvenient that a bug allows to write anything in the files
+            lenght = len(list_times[0])
+            i = 0
+            for times in list_times:
+                i += 1
+                lenght2 = len(times)
+                if lenght != lenght2:
+                    print("issue of lenght at the list " + list_stops_names[i])
+                    print("The lenght is " + str(lenght2) + " instead of " + str(lenght))
+                    assert lenght == lenght2
+
+            # Transposed is the transposition of the table list_times
+            transposed = list(map(list, zip(*list_times)))
+
+
+
+            # Now we find the bus line in memory
+            route1 = None
+            for route in self.routes:
+                if route.id == route_name:
+                    route1 = route
+                    break
+
+            if route1 is None:
+                # Then we have to create the bus line (add a route to the agency)
+                route1 = Route.Route.from_stops_list(route_name, list_stops_names)
+                self.routes.append(route1)
+
+            # Here we initialise the graph (just getting the stops names in the file)
+            route1.graph = LinkedStops.LinkedStops(route1.id)
+
+            # We make comparison with the list of stops in memory to avoid to have sames
+            # stops with different names
+
+            with Comparator.Comparator() as comparator:
+                self.update_stops(route1.graph.list_stops_of_graph, comparator)
+
+                # Now that we made sure that the list of stops has nothing unusual, we can actually draw the graph
+                route1.graph.create_from_file()
+
+
+
+                # Here we check that the stops of the timetable correspond to the stops of the graph
+                list_stops_names = route1.graph.check_stops(list_stops_names, comparator)
+
+
+            for times in transposed:
+                route1.add_trip_from_times(list_stops_names, times, trips_service)
+                count += 1
         print(str(count) + " trips have been added to the line " + route_name)
 
     def print(self):
@@ -482,6 +490,9 @@ class Agency:
         for trip in list_of_trips:
             list_of_stops_times += trip.stop_times
         Other.export_in_csv(list_of_stops_times, "stop_times.txt")
+
+        self.print_coordinates_file()
+        print("finished exporting coordinates.txt")
 
     @staticmethod
     def update():
