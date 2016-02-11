@@ -5,7 +5,7 @@ The program should only take care of UTF-8 files. In input and in output. -DONE
 There should be a function to verify if stops names look alike and ask the user if they're the same. -DONE
 Every time the user is asked, the user's feedback should be put in files so that the program won't ask again. -DONE
 There should be an option to fuse stops by performing a check on the files mentioned above. -DONE
-Trips's id should be "line-service-tripNumber" two trips can be like "3-W-12" et "3-S-12" without conflict.
+Trips's id should be "line-service-tripNumber" two trips can be like "3-W-12" et "3-S-12" without conflict. -DONE
 There should be an option to delete lines or trips.
 After the print in the files, there should be something to show the structure of the agency object, like:
 Agency_id:

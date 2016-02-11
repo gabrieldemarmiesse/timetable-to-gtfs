@@ -20,6 +20,7 @@ stop_id,stop_name,stop_desc,stop_lat,stop_lon,stop_url,location_type,parent_stat
 "cardoulines","Cardoulines","","43.625856","7.042162","","",""
 "carrière","Carrière","","43.630985","6.999361","","",""
 "ccommercial","C. Commercial","","43.602747","7.088444","","",""
+"centrecommercial","CENTRE COMMERCIAL","","","","","",""
 "chapelledescombes","CHAPELLE DES COMBES","","43.602374","7.091105","","",""
 "châteauneuflaferme","Châteauneuf La Ferme","","43.680127","6.971891","","",""
 "cigales","Cigales","","43.642275","7.032813","","",""

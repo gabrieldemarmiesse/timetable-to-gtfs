@@ -88,6 +88,14 @@ class Route:
         trip = Trip.Trip.from_csv(line)
         self.trips.append(trip)
 
+    def number_trips_from_service(self, service_id):
+        # Get the number of trips with this service Id
+        count = 0
+        for trip in self.trips:
+            if trip.service_id == service_id:
+                count += 1
+        return count
+
     def add_trip_from_times(self, list_main_stops, list_times, service, path = "../gtfs/line.txt"):
 
         # Here we must delete the stops where the time is None
@@ -97,7 +105,10 @@ class Route:
 
         complete_stop_list_without_false_stops = [x for x in complete_stop_list if x[0] != "$"]
 
-        trip_id = self.id + "-" + str(len(self.trips))
+        # The trip_id will be "route Id_service Id_trip number"
+        trip_number = self.number_trips_from_service(service) + 1
+
+        trip_id = self.id + "_" + service + "_" + str(trip_number)
 
         trip = Trip.Trip.from_lists(trip_id, self.id, complete_stop_list_without_false_stops, list_main_stops_reducted, list_times_reducted, service)
 
