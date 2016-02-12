@@ -9,6 +9,11 @@ from calendar import Calendar
 import re
 import io
 import Comparator
+import unicodedata
+
+
+def normalize(text):
+    return unicodedata.normalize("NFKD", text.casefold())
 
 
 def read_coordinates():
@@ -281,7 +286,7 @@ class Agency:
                 # Then we go into the list of stops in the agency to see if it was already there
                 found = False
                 for stop_in_memory in self.stops:
-                    if stop_in_memory.id == stop_id:
+                    if normalize(stop_in_memory.id) == normalize(stop_id):
                         found = True
                         break
                 if not found:

@@ -2,6 +2,17 @@ from difflib import SequenceMatcher
 import io
 import Other
 import re
+import unicodedata
+
+
+def normalize(text):
+    text = text.upper().lower()
+    a = unicodedata.normalize("NFKD", text.casefold())
+
+    # The if is to resolve the bug with "pré du lac".
+    # Because the first ascii letter is 65279 and i don't understand why at all.
+
+    return [ord(c) for c in a if ord(c) <= 1000]
 
 
 def read_string(element, have_to_get_name):
@@ -48,13 +59,13 @@ class Comparator:
         self.threshold = None
 
         try:
-            with io.open("sgtfs/same_stops.txt", encoding="utf-8") as f:
+            with io.open("sgtfs/same_stops.txt", "r", encoding="utf-8") as f:
                 equalities = f.readlines()
         except FileNotFoundError:
             print("same_stops.txt not found")
             equalities = list()
         try:
-            with io.open("sgtfs/different_stops.txt", encoding="utf-8") as f:
+            with io.open("sgtfs/different_stops.txt", "r", encoding="utf-8") as f:
                 differences = f.readlines()
         except FileNotFoundError:
             print("different_stops.txt not found")
@@ -95,14 +106,17 @@ class Comparator:
             return result_files_search
         else:
 
-            a_lower = first_stop_name.lower()
-            b_lower = second_stop_name.lower()
+            a_lower = normalize(first_stop_name)
+            b_lower = normalize(second_stop_name)
 
+            if a_lower == b_lower:
+                return True
             p = SequenceMatcher(None, a_lower, b_lower).ratio()
+
             if p > self.threshold or force_compare:
 
                 # We ask for user's feedback
-                user_input = input("Is " + first_stop_name + " the same as " + second_stop_name + " ?  ")
+                user_input = input("Ressamblance: " + str(p) + " Is " + first_stop_name + " the same as " + second_stop_name + " ?  ")
                 if user_input == "":
                     if not force_compare:
                         self.threshold -= 0.0015
