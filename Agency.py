@@ -27,7 +27,8 @@ def read_coordinates():
         list_of_coordinates = list()
         for i, line in enumerate(lines):
             if i == 0:
-                line = line[1:]
+                if ord(line[0]) > 1000:
+                    line = line[1:]
             stop_counter += 1
 
             # Here we parse the line
@@ -526,8 +527,9 @@ class Agency:
 
         print(self.name)
         for route in self.routes:
-            print("----> Line " + route.id)
+            print("\tLine " + route.id + " : " + str(len(route.trips)) + " trips")
 
-            for trip in route.trips:
-                pass
-                # we have to count each trip of service.
+            dictionary = route.get_dictionnary_of_services()
+
+            for key, value in dictionary.items():
+                print("\t\tService " + key + " : " + str(value) + " trips")

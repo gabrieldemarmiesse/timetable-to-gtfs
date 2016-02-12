@@ -18,7 +18,7 @@ We also add artificially false bus stops
 where the bus doesn't usually go
 (he will take the shortest path)"""
 
-    def __init__(self,route_id):
+    def __init__(self, route_id):
         self.dictionary = dict()
         self.line_id = "undefined"
         self.list_stops_of_graph = self.read_file("sgtfs", route_id)

@@ -113,3 +113,14 @@ class Route:
         trip = Trip.Trip.from_lists(trip_id, self.id, complete_stop_list_without_false_stops, list_main_stops_reducted, list_times_reducted, service)
 
         self.trips.append(trip)
+
+    def get_dictionnary_of_services(self):
+        # This dictionary contain services Ids as key and the number of trips with this service Id as argument.
+        dictionary = dict()
+        for trip in self.trips:
+            try:
+                dictionary[trip.service_id] += 1
+            except KeyError:
+                dictionary[trip.service_id] = 1
+
+        return dictionary

@@ -14,11 +14,12 @@ Agency_id:
 	----> S : 13 trips
 ----->Route 2
 	----> WSD: 33 trips
-and so on. It'll be easier to check that the program is not doing anything crazy.
+and so on. It'll be easier to check that the program is not doing anything crazy. - DONE
 Add an option to remove trips which have the same start and end (and service).
 Check if there is a way to facilitate adding regular trips.
+Double the timetable if there is something like S+V (samedi + vacances)
+There is an issue with the codecs
 Find a fast way to add holidays
-Use equality file to find inequalities.
 
 Add a graphical interface
 
