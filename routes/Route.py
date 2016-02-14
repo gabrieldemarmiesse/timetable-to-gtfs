@@ -114,6 +114,9 @@ class Route:
 
         self.trips.append(trip)
 
+    def delete_service(self, service):
+        self.trips = [x for x in self.trips if x.trip_id != service]
+
     def get_dictionnary_of_services(self):
         # This dictionary contain services Ids as key and the number of trips with this service Id as argument.
         dictionary = dict()

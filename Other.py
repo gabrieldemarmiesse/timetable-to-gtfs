@@ -3,6 +3,7 @@ import os
 import re
 import io
 import fileinput
+import os, sys, codecs
 
 
 threshold = None
@@ -119,23 +120,45 @@ def write_list_of_list_in_file(filename, strings, separator):
             f.write("\n")
 
 
-def replace_in_file(filename, word, replacement="", delete_line=False):
+def replace_in_file(filename, regex, replacement="", delete_line=False, escape=False):
     """
     :param filename: The name of the file to modify
-    :param word: The word to look for in the file
-    :param replacement: Optional. It's the word replacement. "" is to delete the line
-    :param delete_line: If true, the line containing the word must be deleted
+    :param regex: The regex to look for in the file
+    :param replacement: Optional. It's the regex replacement. "" is to delete the line
+    :param delete_line: If true, the line containing the regex must be deleted
     :return: Nothing
     """
 
-    word = re.escape("\"" + word + "\"")
+    if escape:
+        regex = re.escape(regex)
+    regex = "\"" + regex + "\""
     if delete_line:
-        word = "^.*" + word + ".*$\\n"
+        regex = "^.*" + regex + ".*$\\n"
     else:
         replacement = "\"" + replacement + "\""
 
-    regex = re.compile(word, re.IGNORECASE)
+    regex = re.compile(regex, re.IGNORECASE)
     with fileinput.FileInput(filename, inplace=True, backup='.bak') as file:
         for line in file:
             print(regex.sub(replacement, line), end='')
 
+
+def delete_BOM(filename):
+
+    BUFSIZE = 4096
+    BOMLEN = len(codecs.BOM_UTF8)
+
+    path = filename
+    with open(path, "r+b") as fp:
+        chunk = fp.read(BUFSIZE)
+        if chunk.startswith(codecs.BOM_UTF8):
+            i = 0
+            chunk = chunk[BOMLEN:]
+            while chunk:
+                fp.seek(i)
+                fp.write(chunk)
+                i += len(chunk)
+                fp.seek(BOMLEN, os.SEEK_CUR)
+                chunk = fp.read(BUFSIZE)
+            fp.seek(-BOMLEN, os.SEEK_CUR)
+            fp.truncate()

@@ -1,2 +1,2 @@
-﻿agency_id, agency_name,agency_url,agency_timezone,agency_phone,agency_lang
+agency_id, agency_name,agency_url,agency_timezone,agency_phone,agency_lang
 "envibus","Envibus","http://www.envibus.fr/","Europe/Paris","+33 (0)4 89 87 72 00","fr"

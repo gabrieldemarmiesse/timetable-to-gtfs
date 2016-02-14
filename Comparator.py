@@ -12,7 +12,7 @@ def normalize(text):
     # The if is to resolve the bug with "pré du lac".
     # Because the first ascii letter is 65279 and i don't understand why at all.
 
-    return [ord(c) for c in a if ord(c) <= 1000]
+    return [ord(c) for c in a if ord(c) != 65279]
 
 
 def read_string(element, have_to_get_name):
@@ -36,10 +36,10 @@ def fuse_two_stops(real_name, alias):
     alias_id = Other.to_id(alias)
 
     # We first take care of stops.txt
-    Other.replace_in_file("gtfs/stops.txt", alias, delete_line=True)
+    Other.replace_in_file("gtfs/stops.txt", alias, delete_line=True, escape=True)
 
     # Now we take care of stop_times.txt
-    Other.replace_in_file("gtfs/stop_times.txt", alias_id, real_id)
+    Other.replace_in_file("gtfs/stop_times.txt", alias_id, real_id, escape=True)
 
 
 class Comparator:

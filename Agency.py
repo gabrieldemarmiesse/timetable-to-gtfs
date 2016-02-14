@@ -178,6 +178,17 @@ class Agency:
         print(str(self.count) + " stops have been imported from the file")
         self.count = 0
 
+    def delete_line(self, name):
+        self.routes = [x for x in self.routes if x.id !=name]
+
+    def delete_service_of_line(self, name, service):
+        for i, route in enumerate(self.routes):
+            print([ord(c) for c in route.id])
+            print([ord(c) for c in name])
+            if route.id is name:
+                self.routes[i].delete_service(service)
+                break
+
     def print_coordinates_file(self):
         # Delete the file
         try:
