@@ -183,9 +183,7 @@ class Agency:
 
     def delete_service_of_line(self, name, service):
         for i, route in enumerate(self.routes):
-            print([ord(c) for c in route.id])
-            print([ord(c) for c in name])
-            if route.id is name:
+            if route.id == name:
                 self.routes[i].delete_service(service)
                 break
 

@@ -154,7 +154,6 @@ where the bus doesn't usually go
 
         #uncoded_route_id = route_id.decode("utf-8")
         route_id = str(route_id)
-        route_id = route_id[1:]
         path += "/line_" + route_id + ".txt"
         with io.open(path, encoding="utf-8") as f:
             lines = f.readlines()
